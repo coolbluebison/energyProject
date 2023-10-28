@@ -13,6 +13,8 @@ from config import db
 class Well(db.Model, SerializerMixin):
     __tablename__ = 'Well_table'
     
+    # serialization_rules
+
     # Columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column (db.String, nullable=False)
@@ -52,6 +54,8 @@ class Assumptions(db.Model, SerializerMixin):
     #relationships
     well = db.relationship("Well", back_populates="assumptions")
 
+    # serialize_rules
+    serialize_rules = ("-well",)
 
     #validations
 
@@ -63,6 +67,9 @@ class ProductionCurve(db.Model, SerializerMixin):
 
     #relationships
     well = db.relationship("Well", back_populates="production_curve")
+
+    # serialize_rules
+    serialize_rules = ("-well",)
 
     #validations
 
@@ -85,6 +92,10 @@ class GasConcentration(db.Model, SerializerMixin):
     #relationships
     well = db.relationship("Well", back_populates="gas_concentration")
 
+    # serialize_rules
+    serialize_rules = ("-well",)
+
+
     #validations
     # need to add a validation here that adding all concentrations need to equal to 1
 
@@ -100,6 +111,9 @@ class User(db.Model, SerializerMixin):
 
     #relationships
     well = db.relationship("Well", back_populates="user")
+
+    # serialize_rules
+    serialize_rules = ("-well",)
 
     #validations
     # need to add a validation to make sure that
@@ -134,6 +148,10 @@ class Project(db.Model, SerializerMixin):
 
     #relationships
     well = db.relationship("Well", back_populates="project")
+
+    # serialize_rules
+    serialize_rules = ("-well",)
+
 
 
 

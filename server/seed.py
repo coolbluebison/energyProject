@@ -32,8 +32,8 @@ def seed_user():
 
 def seed_well():
     # Creating sample data for Well
-    well1 = Well( name="WellFlatiron", coordinates= "11.11, 22.22" )
-    well2 = Well( name="LegendaryWell", coordinates= "11.22, 22.33" )
+    well1 = Well( name="JuansWell", coordinates= "11.11, 22.22", production_curve_id=1, gas_concentration_id=1, assumption_id=1, project_id=1, user_id=1)
+    well2 = Well( name="LegendaryWell", coordinates= "12.22, 32.32", production_curve_id=2, gas_concentration_id=2, assumption_id=2, project_id=2, user_id=2)
 
     db.session.add(well1)
     db.session.add(well2)
