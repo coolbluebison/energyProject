@@ -9,7 +9,7 @@ from models import Well, Assumptions, GasConcentration, ProductionCurve, Project
 
 oil_price = 60.0
 gas_price = 3.0
-methane_price =  1.0
+helium_price = 200.0
 ethane_price =  1.0
 propane_price =  1.0
 i_butane_price  = 1.0
@@ -17,6 +17,8 @@ n_butane_price = 1.0
 i_pentane_price = 1.0
 n_pentane_price = 1.0
 hexane_plus_price = 1.0
+
+
 
 
 def get_type_well(id):
@@ -92,7 +94,7 @@ def process_curve(id):
     type_curve_df["n_pentane_gal"] = type_curve_df.iloc[:,1]*n_pentane_gpm
     type_curve_df["hexane_plus_gal"] = type_curve_df.iloc[:,1]*hexane_plus_gpm
 
-    processed_curve_df = type_curve_df[["oil_bbl", "methane_mcf", "ethane_gal", "propane_gal", "i_butane_gal", "n_butane_gal", "i_pentane_gal", "n_pentane_gal", "hexane_plus_gal"]]
+    processed_curve_df = type_curve_df[["oil_bbl", "methane_mcf", "helium_mcf", "ethane_gal", "propane_gal", "i_butane_gal", "n_butane_gal", "i_pentane_gal", "n_pentane_gal", "hexane_plus_gal"]]
 
     print(processed_curve_df)
     return processed_curve_df
@@ -108,24 +110,47 @@ def net_production(id):
     processed_curve_df["net_revenue_interest"] = net_revenue_interest
     processed_curve_df["net_revenue_interest"] = working_interest
 
-    print(processed_curve_df["helium_mcf"])
+    processed_curve_df["net_oil_bbl"] = processed_curve_df["oil_bbl"]*net_revenue_interest*working_interest
+    processed_curve_df["net_methane_mcf"] = processed_curve_df["methane_mcf"]*net_revenue_interest*working_interest 
+    processed_curve_df["net_helium_mcf"] = processed_curve_df["helium_mcf"]*net_revenue_interest*working_interest
+    processed_curve_df["net_ethane_gal"] = processed_curve_df["ethane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_propane_gal"] = processed_curve_df["propane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_i_butane_gal"] = processed_curve_df["i_butane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_n_butane_gal"] = processed_curve_df["n_butane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_i_pentane_gal"] = processed_curve_df["i_pentane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_n_pentane_gal"] = processed_curve_df["n_pentane_gal"]*net_revenue_interest*working_interest
+    processed_curve_df["net_hexane_plus_gal"] = processed_curve_df["hexane_plus_gal"]*net_revenue_interest*working_interest
 
-    # processed_curve_df["net_oil_bll"] = processed_curve_df["oil_bbl"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_methane_mcf"] = processed_curve_df["methane_mcf"]*net_revenue_interest*working_interest 
-    # processed_curve_df["net_helium_mcf"] = processed_curve_df["helium_mcf"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_ethane_gal"] = processed_curve_df["ethane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_propane_gal"] = processed_curve_df["propane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_i_butane_gal"] = processed_curve_df["i_butane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_n_butane_gal"] = processed_curve_df["n_butane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_i_pentane_gal"] = processed_curve_df["i_pentane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_n_pentane_gal"] = processed_curve_df["n_pentane_gal"]*net_revenue_interest*working_interest
-    # processed_curve_df["net_hexane_plus_gal"] = processed_curve_df["net_hexane_plus_gal"]*net_revenue_interest*working_interest
+    return processed_curve_df
 
-    # print(processed_curve_df)
 
+def calculate_cash_flows(id):
+
+    processed_curve_df = net_production(id)
+
+    well_to_get = (Well.query.filter_by(id=id).first()).to_dict()
+    total_oil_deduct = well_to_get["assumptions"]["total_oil_deduct"]
+    total_gas_deduct = well_to_get["assumptions"]["total_gas_deduct"]
+    total_monthly_expenses = well_to_get["assumptions"]["total_monthly_opex"]
+    total_capex = well_to_get["assumptions"]["total_capex"]
+
+    processed_curve_df["net_revenue_oil"] = processed_curve_df["net_oil_bbl"] * (oil_price - total_oil_deduct)
+    processed_curve_df["net_revenue_methane"] = processed_curve_df["net_methane_mcf"] * (gas_price - total_gas_deduct)
+    processed_curve_df["net_revenue_helium"] = processed_curve_df["net_helium_mcf"] *(helium_price)
+    processed_curve_df["net_revenue_ethane"] = processed_curve_df["net_ethane_gal"] * (ethane_price)
+    processed_curve_df["net_revenue_propane"] = processed_curve_df["net_propane_gal"] * (propane_price)
+    processed_curve_df["net_revenue_i_butane"] = processed_curve_df["net_i_butane_gal"] * (i_butane_price)
+    processed_curve_df["net_revenue_n_butane"] = processed_curve_df["net_n_butane_gal"] * (n_butane_price)
+    processed_curve_df["net_revenue_i_pentane"] = processed_curve_df["net_i_pentane_gal"] * (i_pentane_price)
+    processed_curve_df["net_revenue_n_pentane"] = processed_curve_df["net_n_pentane_gal"] * (n_pentane_price)
+    processed_curve_df["net_revenue_hexane_plus"] = processed_curve_df["net_hexane_plus_gal"] * (hexane_plus_price)
+
+
+    print(processed_curve_df)
+        
 
 with app.app_context():
-    net_production(1)
+    calculate_cash_flows(1)
 
 
 
