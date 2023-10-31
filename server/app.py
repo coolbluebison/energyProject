@@ -121,14 +121,18 @@ class WellById(Resource):
 
     def patch(self, id):
         data_to_patch_from = request.get_json()
-        well_to_choose = Well.query.filter_by(id=id).first()
 
-        if well_to_choose:
+        try: 
+            well_to_choose = Well.query.filter_by(id=id).first()
+
             for field in data_to_patch_from:
                 setattr(well_to_choose, field, data_to_patch_from[field])
+
             db.session.commit()
             return well_to_choose.to_dict(), 200
-        else:
+        
+        except Exception as e:
+            print(e)
             return {'error':'the well does not exist'}, 404
 
     def delete(self, id):
@@ -142,6 +146,36 @@ class WellById(Resource):
             return {'error':'the well does not exist'}, 404
 
 api.add_resource(WellById, '/Well_table/<int:id>')
+
+
+# class WellByIdAssumptions(Resource):
+
+#     def get(self, id):
+#         assumptions_to_choose = (Well.query.filter_by(id=id).first())["assumptions"]
+        
+#         if assumptions_to_choose:
+#             return assumptions_to_choose.to_dict(), 200
+#         else:
+#             return {'error': 'the well does not exist'}, 404
+
+
+#     def patch(self, id):
+#         data_to_patch_from = request.get_json()
+
+#         try: 
+#             assumptions_to_choose = (Well.query.filter_by(id=id).first())["assumptions"]
+
+#             for field in data_to_patch_from:
+#                 setattr(assumptions_to_choose, field, data_to_patch_from[field])
+
+#             db.session.commit()
+#             return assumptions_to_choose.to_dict(), 200
+        
+#         except Exception as e:
+#             print(e)
+#             return {'error':'the well does not exist'}, 404
+
+# api.add_resource(WellByIdAssumptions, '/Well_table/<int:id>/assumptions')
 
 
 
@@ -188,14 +222,16 @@ class AssumptionById(Resource):
 
     def patch(self, id):
         data_to_patch_from = request.get_json()
-        assumption_to_choose = Assumptions.query.filter_by(id=id).first()
 
-        if assumption_to_choose:
+        try: 
+            assumption_to_choose = Assumptions.query.filter_by(id=id).first()
             for field in data_to_patch_from:
                 setattr(assumption_to_choose, field, data_to_patch_from[field])
             db.session.commit()
             return assumption_to_choose.to_dict(), 200
-        else:
+        except Exception as e:
+            print(e)
+            
             return {'error':'the assumption does not exist'}, 404
 
     def delete(self, id):

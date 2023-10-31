@@ -45,9 +45,8 @@ class Assumptions(db.Model, SerializerMixin):
     # Land assumptions
     net_revenue_interest = db.Column(db.Float, nullable=False)
     working_interest = db.Column(db.Float, nullable=False)
-
-    total_oil_deduct = db.Column(db.Float)
-    total_gas_deduct = db.Column(db.Float)
+    list_of_oil_deducts = db.Column(db.String)
+    list_of_gas_deducts = db.Column(db.String)
     total_monthly_opex = db.Column(db.Float)
     total_capex = db.Column(db.Float)
 
@@ -58,6 +57,7 @@ class Assumptions(db.Model, SerializerMixin):
     serialize_rules = ("-well",)
 
     #validations
+
 
 class ProductionCurve(db.Model, SerializerMixin):
     __tablename__ = "Production_curve_table"

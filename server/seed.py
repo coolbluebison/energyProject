@@ -44,8 +44,8 @@ def seed_assumptions():
     assumptions1 = Assumptions(
         net_revenue_interest = 0.85,
         working_interest = 1,
-        total_oil_deduct = 10.0,
-        total_gas_deduct = 0.50,
+        list_of_oil_deducts = json.dumps({"nymex_oil_pricing_deduct":10.0, "oil_transportation_cost":5.0, "oil_processing_cost":5.0}),
+        list_of_gas_deducts = json.dumps({"hhub_gas_pricing_deduct":1.0, "gas_transportation_cost":0.5, "gas_procesing_cost":0.5}),
         total_monthly_opex = 5000,
         total_capex = 1000000
     )
@@ -54,8 +54,8 @@ def seed_assumptions():
     assumptions2 = Assumptions(
         net_revenue_interest = 0.70,
         working_interest = 1,
-        total_oil_deduct = 8.0,
-        total_gas_deduct = 0.60,
+        list_of_oil_deducts = json.dumps({"nymex_oil_pricing_deduct":10.0, "oil_transportation_cost":5.0, "oil_processing_cost":5.0}),
+        list_of_gas_deducts = json.dumps({"hhub_gas_pricing_deduct":1.0, "gas_transportation_cost":0.5, "gas_procesing_cost":0.5}),
         total_monthly_opex = 7000,
         total_capex = 800000
     )

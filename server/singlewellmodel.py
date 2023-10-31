@@ -1,4 +1,5 @@
-import pandas as pd 
+import pandas as pd
+import numpy_financial as npf
 import json
 
 
@@ -7,9 +8,9 @@ from config import app
 from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User
 
 
-oil_price = 60.0
+oil_price = 10.0
 gas_price = 3.0
-helium_price = 200.0
+helium_price = 100.0
 ethane_price =  1.0
 propane_price =  1.0
 i_butane_price  = 1.0
@@ -145,35 +146,38 @@ def calculate_cash_flows(id):
     processed_curve_df["net_revenue_n_pentane"] = processed_curve_df["net_n_pentane_gal"] * (n_pentane_price)
     processed_curve_df["net_revenue_hexane_plus"] = processed_curve_df["net_hexane_plus_gal"] * (hexane_plus_price)
 
+    processed_curve_df["total_net_revenues"] = (processed_curve_df["net_revenue_oil"] + 
+                                                processed_curve_df["net_revenue_methane"] + 
+                                                processed_curve_df["net_revenue_helium"] + 
+                                                processed_curve_df["net_revenue_ethane"] + 
+                                                processed_curve_df["net_revenue_propane"] + 
+                                                processed_curve_df["net_revenue_i_butane"] + 
+                                                processed_curve_df["net_revenue_n_butane"] + 
+                                                processed_curve_df["net_revenue_i_pentane"] + 
+                                                processed_curve_df["net_revenue_n_pentane"] + 
+                                                processed_curve_df["net_revenue_hexane_plus"]
+                                                )
+
+    processed_curve_df["total_monthly_expenses"] = total_monthly_expenses
+
+    processed_curve_df["ebitda"] = processed_curve_df["total_net_revenues"] - processed_curve_df["total_monthly_expenses"]
+
+    processed_curve_df["capex"] = 0
+    processed_curve_df["capex"][0] = -total_capex
+
+    processed_curve_df["cash_flows"] = processed_curve_df["ebitda"] + processed_curve_df["capex"]
+
+    irr = npf.irr(processed_curve_df["cash_flows"])
+    
+    npv10 = npf.npv(0.1, processed_curve_df["cash_flows"])
 
     print(processed_curve_df)
+    print(f"IRR is {irr*100:.2f}%")
+    print(f"NPV10 is ${npv10:.2f}")
         
 
 with app.app_context():
     calculate_cash_flows(1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
