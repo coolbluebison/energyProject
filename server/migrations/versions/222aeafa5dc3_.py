@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f9a13d0d3326
+Revision ID: 222aeafa5dc3
 Revises: 
-Create Date: 2023-10-30 20:26:13.052872
+Create Date: 2023-10-31 13:50:47.539621
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f9a13d0d3326'
+revision = '222aeafa5dc3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,8 +24,13 @@ def upgrade():
     sa.Column('working_interest', sa.Float(), nullable=False),
     sa.Column('list_of_oil_deducts', sa.String(), nullable=True),
     sa.Column('list_of_gas_deducts', sa.String(), nullable=True),
+    sa.Column('severance_tax', sa.Float(), nullable=True),
+    sa.Column('ad_valorem_tax', sa.Float(), nullable=True),
     sa.Column('total_monthly_opex', sa.Float(), nullable=True),
-    sa.Column('total_capex', sa.Float(), nullable=True),
+    sa.Column('drilling_costs', sa.Float(), nullable=True),
+    sa.Column('completion_costs', sa.Float(), nullable=True),
+    sa.Column('pipeline_costs', sa.Float(), nullable=True),
+    sa.Column('contingency_costs', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('Gas_concentration_table',
@@ -40,6 +45,20 @@ def upgrade():
     sa.Column('hexane_plus', sa.Float(), nullable=True),
     sa.Column('helium', sa.Float(), nullable=True),
     sa.Column('other', sa.Float(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('Pricing_table',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('oil_price', sa.Float(), nullable=True),
+    sa.Column('methane_price', sa.Float(), nullable=True),
+    sa.Column('helium_price', sa.Float(), nullable=True),
+    sa.Column('ethane_price', sa.Float(), nullable=True),
+    sa.Column('propane_price', sa.Float(), nullable=True),
+    sa.Column('i_butane_price', sa.Float(), nullable=True),
+    sa.Column('n_butane_price', sa.Float(), nullable=True),
+    sa.Column('i_pentane_price', sa.Float(), nullable=True),
+    sa.Column('n_pentane_price', sa.Float(), nullable=True),
+    sa.Column('hexane_plus_price', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('Production_curve_table',
@@ -84,6 +103,7 @@ def downgrade():
     op.drop_table('User_table')
     op.drop_table('Project_table')
     op.drop_table('Production_curve_table')
+    op.drop_table('Pricing_table')
     op.drop_table('Gas_concentration_table')
     op.drop_table('Assumptions_table')
     # ### end Alembic commands ###

@@ -10,7 +10,7 @@ from flask_restful import Resource
 from config import app, db, api
 
 # Add your model imports
-from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User
+from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
 
 
 # Views go here!
@@ -441,6 +441,77 @@ class ProjectById(Resource):
 
 api.add_resource(ProjectById, '/Project_table/<int:id>')
 
+
+
+## Routes for pricing table
+
+class PricingNorm(Resource):
+    
+    def get(self):
+        pricings_to_get = Pricing.query.all()
+        data = [pricing.to_dict() for pricing in pricings_to_get]
+
+        return data, 200
+
+    def post(self):
+        pricing_to_create = request.get_json()
+
+        try:
+            new_pricing = Pricing(
+                oil_price = pricing_to_create['oil_price'],
+                methane_price = pricing_to_create['methane_price'],
+                helium_price = pricing_to_create['helium_price'],
+                ethane_price = pricing_to_create['ethane_price'],
+                propane_price = pricing_to_create['propane_price'],
+                i_butane_price = pricing_to_create['i_butane_price'],
+                n_butane_price = pricing_to_create['n_butane_price'],
+                i_pentane_price = pricing_to_create['i_pentane_price'],
+                n_pentane_price = pricing_to_create['n_pentane_price'],
+                hexane_plus_price = pricing_to_create['hexane_plus_price']
+            )
+
+            db.session.add(new_pricing)
+            db.session.commit()
+            return new_pricing.to_dict(), 201
+        
+        except: 
+            return {"error": "There was an error while creating the pricing instance"}, 500
+
+api.add_resource(PricingNorm, '/Pricing_table')
+
+
+class PricingById(Resource):
+
+    def get(self, id):
+        pricing_to_choose = Pricing.query.filter_by(id=id).first()
+        if pricing_to_choose:
+            return pricing_to_choose.to_dict(), 200
+        else:
+            return {'error': 'the project does not exist'}, 404
+
+    def patch(self, id):
+        data_to_patch_from = request.get_json()
+        pricing_to_choose = Pricing.query.filter_by(id=id).first()
+
+        if pricing_to_choose:
+            for field in data_to_patch_from:
+                setattr(pricing_to_choose, field, data_to_patch_from[field])
+            db.session.commit()
+            return pricing_to_choose.to_dict(), 200
+        else:
+            return {'error':'the pricing does not exist'}, 404
+
+    def delete(self, id):
+        pricing_to_choose = Pricing.query.filter_by(id=id).first()
+
+        if pricing_to_choose:
+            db.session.delete(pricing_to_choose)
+            db.session.commit()
+            return {}, 204
+        else:
+            return {'error':'the pricing does not exist'}, 404
+
+api.add_resource(PricingById, '/Pricing_table/<int:id>') 
 
 
 

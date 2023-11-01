@@ -9,7 +9,7 @@ import json
 
 # Local imports
 from app import app
-from models import db, Well, Assumptions, GasConcentration, ProductionCurve, Project, User
+from models import db, Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
 
 
 def seed_user():
@@ -46,8 +46,13 @@ def seed_assumptions():
         working_interest = 1,
         list_of_oil_deducts = json.dumps({"nymex_oil_pricing_deduct":10.0, "oil_transportation_cost":5.0, "oil_processing_cost":5.0}),
         list_of_gas_deducts = json.dumps({"hhub_gas_pricing_deduct":1.0, "gas_transportation_cost":0.5, "gas_procesing_cost":0.5}),
+        severance_tax = 0.04,
+        ad_valorem_tax = 0.03,
         total_monthly_opex = 5000,
-        total_capex = 1000000
+        drilling_costs = 500000,
+        completion_costs = 500000,
+        pipeline_costs = 500000,
+        contingency_costs = 500000
     )
 
      # Creating sample data for Assumptions 
@@ -56,9 +61,13 @@ def seed_assumptions():
         working_interest = 1,
         list_of_oil_deducts = json.dumps({"nymex_oil_pricing_deduct":10.0, "oil_transportation_cost":5.0, "oil_processing_cost":5.0}),
         list_of_gas_deducts = json.dumps({"hhub_gas_pricing_deduct":1.0, "gas_transportation_cost":0.5, "gas_procesing_cost":0.5}),
+        severance_tax = 0.04,
+        ad_valorem_tax = 0.03,
         total_monthly_opex = 7000,
-        total_capex = 800000
-    )
+        drilling_costs = 500000,
+        completion_costs = 500000,
+        pipeline_costs = 500000,
+        contingency_costs = 500000    )
 
     db.session.add(assumptions1)
     db.session.add(assumptions2)
@@ -239,6 +248,20 @@ def seed_project():
     db.session.add(project1)
     db.session.add(project2)
 
+def seed_pricing():
+    # Creating a pricing instance
+    pricing1 = Pricing ( oil_price = 30.0,
+                       methane_price = 4.0,
+                       helium_price = 50.0,
+                       ethane_price = 1.0,
+                       propane_price = 1.0,
+                       i_butane_price = 1.0,
+                       n_butane_price = 1.0,
+                       i_pentane_price = 1.0,
+                       n_pentane_price = 1.0,
+                       hexane_plus_price = 1.0 )
+    
+    db.session.add(pricing1)
 
 
 if __name__ == '__main__':
@@ -252,6 +275,7 @@ if __name__ == '__main__':
         seed_gas_concentrations()
         seed_curves()
         seed_project()
+        seed_pricing()
 
         db.session.commit()
 

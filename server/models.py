@@ -47,8 +47,13 @@ class Assumptions(db.Model, SerializerMixin):
     working_interest = db.Column(db.Float, nullable=False)
     list_of_oil_deducts = db.Column(db.String)
     list_of_gas_deducts = db.Column(db.String)
-    total_monthly_opex = db.Column(db.Float)
-    total_capex = db.Column(db.Float)
+    severance_tax = db.Column(db.Float)
+    ad_valorem_tax = db.Column(db.Float)
+    total_monthly_opex = db.Column(db.Float)    
+    drilling_costs = db.Column(db.Float)
+    completion_costs = db.Column(db.Float)
+    pipeline_costs = db.Column(db.Float)
+    contingency_costs = db.Column(db.Float)
 
     #relationships
     well = db.relationship("Well", back_populates="assumptions")
@@ -151,6 +156,23 @@ class Project(db.Model, SerializerMixin):
 
     # serialize_rules
     serialize_rules = ("-well",)
+
+
+class Pricing(db.Model, SerializerMixin):
+    __tablename__ = "Pricing_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    oil_price = db.Column(db.Float)
+    methane_price = db.Column(db.Float)
+    helium_price = db.Column(db.Float)
+    ethane_price =  db.Column(db.Float)
+    propane_price =  db.Column(db.Float)
+    i_butane_price  = db.Column(db.Float)
+    n_butane_price = db.Column(db.Float)
+    i_pentane_price = db.Column(db.Float)
+    n_pentane_price = db.Column(db.Float)
+    hexane_plus_price = db.Column(db.Float)
 
 
 

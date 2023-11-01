@@ -5,20 +5,7 @@ import json
 
 from config import app
 
-from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User
-
-
-oil_price = 10.0
-gas_price = 3.0
-helium_price = 100.0
-ethane_price =  1.0
-propane_price =  1.0
-i_butane_price  = 1.0
-n_butane_price = 1.0
-i_pentane_price = 1.0
-n_pentane_price = 1.0
-hexane_plus_price = 1.0
-
+from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
 
 
 
@@ -130,13 +117,47 @@ def calculate_cash_flows(id):
     processed_curve_df = net_production(id)
 
     well_to_get = (Well.query.filter_by(id=id).first()).to_dict()
-    total_oil_deduct = well_to_get["assumptions"]["total_oil_deduct"]
-    total_gas_deduct = well_to_get["assumptions"]["total_gas_deduct"]
+    
+    ## ATTENTION HERE: DONT FORGET TO CALCULATE total_oil_deduct and total_gas_deduct from lists
+
+    assumptions_to_get = Assumptions.query.filter_by(id=well_to_get["assumption_id"]).first().to_dict()
+
+
+    total_oil_deduct_components = json.loads(assumptions_to_get["list_of_oil_deducts"])
+    total_gas_deduct_components = json.loads(assumptions_to_get["list_of_gas_deducts"])
+    
+    total_oil_deduct = 0.0
+    
+    for element in total_oil_deduct_components.values():
+        total_oil_deduct += element
+
+    total_gas_deduct = 0.0
+    
+    for element in total_oil_deduct_components.values():
+        total_gas_deduct += element
+
+    total_oil_deduct = 0.0
+    total_gas_deduct = 0.0
+    
     total_monthly_expenses = well_to_get["assumptions"]["total_monthly_opex"]
-    total_capex = well_to_get["assumptions"]["total_capex"]
+    
+    total_capex = well_to_get["assumptions"]["drilling_costs"] + well_to_get["assumptions"]["completion_costs"] + well_to_get["assumptions"]["pipeline_costs"] + well_to_get["assumptions"]["contingency_costs"]
+
+    pricing_to_get = (Pricing.query.first()).to_dict()
+    oil_price = pricing_to_get["oil_price"]
+    methane_price = pricing_to_get["methane_price"]
+    helium_price = pricing_to_get["helium_price"]
+    ethane_price = pricing_to_get["ethane_price"]
+    propane_price = pricing_to_get["propane_price"]
+    i_butane_price = pricing_to_get["i_butane_price"]
+    n_butane_price = pricing_to_get["n_butane_price"]
+    i_pentane_price = pricing_to_get["i_pentane_price"]
+    n_pentane_price = pricing_to_get["n_pentane_price"]
+    hexane_plus_price = pricing_to_get["hexane_plus_price"]
+
 
     processed_curve_df["net_revenue_oil"] = processed_curve_df["net_oil_bbl"] * (oil_price - total_oil_deduct)
-    processed_curve_df["net_revenue_methane"] = processed_curve_df["net_methane_mcf"] * (gas_price - total_gas_deduct)
+    processed_curve_df["net_revenue_methane"] = processed_curve_df["net_methane_mcf"] * (methane_price - total_gas_deduct)
     processed_curve_df["net_revenue_helium"] = processed_curve_df["net_helium_mcf"] *(helium_price)
     processed_curve_df["net_revenue_ethane"] = processed_curve_df["net_ethane_gal"] * (ethane_price)
     processed_curve_df["net_revenue_propane"] = processed_curve_df["net_propane_gal"] * (propane_price)
