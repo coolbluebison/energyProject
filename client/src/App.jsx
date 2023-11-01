@@ -3,33 +3,43 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+
+import OperatingAssumptions from "./components/OperatingAssumptions"
+import PricingAssumptions from './components/PricingAssumptions'
+import DashboardContainer from './components/DashboardContainer.jsx'
+
+import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
+
+
+// const userLoader = async () => {
+//   const response = await fetch("http://127.0.0.1:5555/Model_package/1")
+//   return response.json()
+// }
+
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    
+    <BrowserRouter >
+  
+        <nav className="nav">
+          <NavLink to="DashboardContainer" activeclassname="active">Dashboard Try</NavLink>
+          <NavLink to="OperatingAssumptions" activeclassname="active">Operating Assumptions</NavLink>
+          <NavLink to="PricingAssumptions" activeclassname="active">Pricing Assumptions</NavLink>
+        </nav>
+
+        <Routes>
+          <Route path="DashboardContainer" element={<DashboardContainer/>}  />
+          <Route path="OperatingAssumptions" element={<OperatingAssumptions/>} />
+          <Route path="PricingAssumptions" element={<PricingAssumptions/>} />
+        </Routes>
+
+    </BrowserRouter>
+  
   )
 }
+
 
 export default App

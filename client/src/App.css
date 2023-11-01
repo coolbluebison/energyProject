@@ -1,4 +1,4 @@
-#root {
+ #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -40,3 +40,32 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.nav {
+  display: flex;
+  background-color: #f3f4f6;
+  overflow: hidden;
+}
+
+.nav a {
+  padding: 15px 15px;
+  display: block;
+  background-color: #f3f4f6;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.nav a:hover {
+  background-color: #ddd;
+}
+
+.nav a.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+
+
