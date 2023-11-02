@@ -120,7 +120,7 @@ function DailyRevenueGraph({param_data}) {
         labels: Array.from({length : 60}, (_, i) => i + 1),
         datasets: [{
             label: "Helium Revenues ($)",
-            data:  net_gas_revenue_list,
+            data:  net_helium_revenue_list,
             backgroundColor: 'lightblue',
             borderColor: 'lightblue',
             borderWidth: 0.5,

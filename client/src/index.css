@@ -68,3 +68,34 @@ button:focus-visible {
   }
 }
 
+
+
+/* Fiancial table styling at RevenueMarginGraph */
+.financial-table {
+  font-family: Arial, sans-serif;
+}
+
+.financial-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.financial-table th,
+.financial-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.financial-table th {
+  background-color: darkolivegreen;
+  font-weight: bold;
+}
+/* 
+.financial-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+} */
+
+.financial-table tbody tr:hover {
+  background-color: #e0e0e0;
+}

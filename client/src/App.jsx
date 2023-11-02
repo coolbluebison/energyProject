@@ -7,6 +7,8 @@ import './App.css'
 import OperatingAssumptions from "./components/OperatingAssumptions"
 import PricingAssumptions from './components/PricingAssumptions'
 import DashboardContainer from './components/DashboardContainer.jsx'
+import GasCompAssumptions from './components/GasCompAssumptions.jsx'
+
 
 import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
 
@@ -28,12 +30,15 @@ function App() {
           <NavLink to="DashboardContainer" activeclassname="active">Dashboard Try</NavLink>
           <NavLink to="OperatingAssumptions" activeclassname="active">Operating Assumptions</NavLink>
           <NavLink to="PricingAssumptions" activeclassname="active">Pricing Assumptions</NavLink>
+          <NavLink to="GasCompAssumptions" activeclassname="active">Gas Composition Assumptions</NavLink>
+
         </nav>
 
         <Routes>
           <Route path="DashboardContainer" element={<DashboardContainer/>}  />
           <Route path="OperatingAssumptions" element={<OperatingAssumptions/>} />
           <Route path="PricingAssumptions" element={<PricingAssumptions/>} />
+          <Route path="GasCompAssumptions" element={<GasCompAssumptions />} />
         </Routes>
 
     </BrowserRouter>

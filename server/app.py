@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource
 
 # Local imports
@@ -12,8 +12,23 @@ from config import app, db, api
 # Add your model imports
 from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
 
+import singlewellmodel
 
-# Views go here!
+
+class PackageSend(Resource):
+    def get(self):
+        try:
+            package = singlewellmodel.calculate_cash_flows(2)
+
+            return package, 200
+        except Exception as e:
+            return {"error": str(e)}, 500
+
+api.add_resource(PackageSend, '/Model_package')
+
+
+
+# Routes
 
 class UserNorm(Resource):
     

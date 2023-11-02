@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 
 import DailyProductionGraph from './DailyProductionGraph';
 import MonthlyRevenueGraph from './MonthlyRevenueGraph';
+import RevenueMarginGraph from './RevenueMarginGraph'
 
 
 
@@ -25,6 +26,9 @@ function DashboardContainer() {
             {data?<DailyProductionGraph param_data = {data} />:<></>}
 
             {data?<MonthlyRevenueGraph param_data = {data} />:<></>}
+
+            {data?<RevenueMarginGraph param_data = {data} />:<></>}
+
 
         </>
     )

@@ -39,7 +39,7 @@ function PricingAssumptions() {
 
         const { id, value } = e.target
 
-        const updatedData = { ...pricingAssumptions, [id]: value }
+        const updatedData = { ...pricingAssumptions, [id]: parseFloat(value) }
         setPricingAssumptions(updatedData)
     }
 

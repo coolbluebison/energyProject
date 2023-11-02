@@ -96,7 +96,7 @@ def net_production(id):
     working_interest = well_to_get["assumptions"]["working_interest"]
 
     processed_curve_df["net_revenue_interest"] = net_revenue_interest
-    processed_curve_df["net_revenue_interest"] = working_interest
+    processed_curve_df["working_interest"] = working_interest
 
     processed_curve_df["net_oil_bbl"] = processed_curve_df["oil_bbl"]*net_revenue_interest*working_interest
     processed_curve_df["net_methane_mcf"] = processed_curve_df["methane_mcf"]*net_revenue_interest*working_interest 
@@ -140,6 +140,9 @@ def calculate_cash_flows(id):
     total_gas_deduct = 0.0
     
     total_monthly_expenses = well_to_get["assumptions"]["total_monthly_opex"]
+
+    severance_tax = well_to_get["assumptions"]["severance_tax"]
+    ad_valorem_tax = well_to_get["assumptions"]["ad_valorem_tax"]
     
     total_capex = well_to_get["assumptions"]["drilling_costs"] + well_to_get["assumptions"]["completion_costs"] + well_to_get["assumptions"]["pipeline_costs"] + well_to_get["assumptions"]["contingency_costs"]
 
@@ -178,10 +181,13 @@ def calculate_cash_flows(id):
                                                 processed_curve_df["net_revenue_n_pentane"] + 
                                                 processed_curve_df["net_revenue_hexane_plus"]
                                                 )
+    
+    processed_curve_df["severance_tax"] = processed_curve_df["total_net_revenues"]*severance_tax
+    processed_curve_df["ad_valorem_tax"] = processed_curve_df["total_net_revenues"]*ad_valorem_tax
 
     processed_curve_df["total_monthly_expenses"] = total_monthly_expenses
 
-    processed_curve_df["ebitda"] = processed_curve_df["total_net_revenues"] - processed_curve_df["total_monthly_expenses"]
+    processed_curve_df["ebitda"] = processed_curve_df["total_net_revenues"] - processed_curve_df["total_monthly_expenses"] -processed_curve_df["severance_tax"] - processed_curve_df["ad_valorem_tax"]
 
     processed_curve_df["capex"] = 0
     processed_curve_df["capex"][0] = -total_capex
@@ -189,13 +195,23 @@ def calculate_cash_flows(id):
     processed_curve_df["cash_flows"] = processed_curve_df["ebitda"] + processed_curve_df["capex"]
 
     irr = npf.irr(processed_curve_df["cash_flows"])
+
+    if not irr:
+        irr = 0
+
     
     npv10 = npf.npv(0.1, processed_curve_df["cash_flows"])
 
     print(processed_curve_df)
     print(f"IRR is {irr*100:.2f}%")
     print(f"NPV10 is ${npv10:.2f}")
-        
+
+    # processed_curve_json = processed_curve_df.to_json(orient='records', date_format='iso')
+
+    send_package = {"model": processed_curve_df.to_dict(), "irr":irr, "npv":npv10}
+
+    # return send_package
+    return send_package
 
 with app.app_context():
     calculate_cash_flows(1)
