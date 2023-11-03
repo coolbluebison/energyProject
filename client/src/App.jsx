@@ -8,6 +8,10 @@ import OperatingAssumptions from "./components/OperatingAssumptions"
 import PricingAssumptions from './components/PricingAssumptions'
 import DashboardContainer from './components/DashboardContainer.jsx'
 import GasCompAssumptions from './components/GasCompAssumptions.jsx'
+import Signup from './components/LoginPages/Signup.jsx'
+import Login from './components/LoginPages/Login.jsx'
+import CreateWell from './components/Create/CreateWell.jsx'
+
 
 
 import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
@@ -31,6 +35,11 @@ function App() {
           <NavLink to="OperatingAssumptions" activeclassname="active">Operating Assumptions</NavLink>
           <NavLink to="PricingAssumptions" activeclassname="active">Pricing Assumptions</NavLink>
           <NavLink to="GasCompAssumptions" activeclassname="active">Gas Composition Assumptions</NavLink>
+          <NavLink to="Signup" activeclassname="active">Signup</NavLink>
+          <NavLink to="Login" activeclassname="active">Login</NavLink>
+
+          <NavLink to="CreateWell" activeclassname="active">Create a New Well</NavLink>
+
 
         </nav>
 
@@ -39,6 +48,11 @@ function App() {
           <Route path="OperatingAssumptions" element={<OperatingAssumptions/>} />
           <Route path="PricingAssumptions" element={<PricingAssumptions/>} />
           <Route path="GasCompAssumptions" element={<GasCompAssumptions />} />
+          <Route path="Signup" element={<Signup />} />
+          <Route path="Login" element={<Login />} />
+
+          <Route path="CreateWell" element={<CreateWell />} />
+
         </Routes>
 
     </BrowserRouter>
