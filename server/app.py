@@ -19,6 +19,7 @@ from config import app, db, api
 from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
 # Import the Single Well Model
 import singlewellmodel
+import projectlevelmodel
 
 
 class PackageSend(Resource):
@@ -32,6 +33,20 @@ class PackageSend(Resource):
             return {"error": str(e)}, 500
 
 api.add_resource(PackageSend, '/Model_package/<int:id>')
+
+
+class ProjectPackageSend(Resource):
+    
+    def get(self, id):
+        
+        try:
+            package = projectlevelmodel.project_level_economics(id)
+
+            return package, 200
+        except Exception as e:
+            return {"error": str(e)}, 500
+
+api.add_resource(ProjectPackageSend, '/Project_package/<int:id>')
 
 
 

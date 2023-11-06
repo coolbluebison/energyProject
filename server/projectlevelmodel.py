@@ -49,7 +49,9 @@ def project_level_economics(project_id):
 
     combined_sum = combined_sum.drop("Month",axis=1)
 
-    # combined_sum = combined_sum.reset_index()
+    combined_sum = combined_sum.reset_index()
+
+    combined_sum['Date'] = combined_sum['Date'].apply(lambda x: x.isoformat())
 
     print(combined_sum)
     print(f"IRR is {irr*100:.2f}%")
