@@ -52,7 +52,10 @@ def seed_assumptions():
         drilling_costs = 500000,
         completion_costs = 500000,
         pipeline_costs = 500000,
-        contingency_costs = 500000
+        contingency_costs = 500000,
+        prod_start_month = "January",
+        prod_start_year = "2024"
+
     )
 
      # Creating sample data for Assumptions 
@@ -67,7 +70,11 @@ def seed_assumptions():
         drilling_costs = 500000,
         completion_costs = 500000,
         pipeline_costs = 500000,
-        contingency_costs = 500000    )
+        contingency_costs = 500000,
+        prod_start_month = "January",
+        prod_start_year = "2024"    
+        
+    )
 
     db.session.add(assumptions1)
     db.session.add(assumptions2)

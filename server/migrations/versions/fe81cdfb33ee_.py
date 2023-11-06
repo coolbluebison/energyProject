@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 222aeafa5dc3
+Revision ID: fe81cdfb33ee
 Revises: 
-Create Date: 2023-10-31 13:50:47.539621
+Create Date: 2023-11-05 16:15:37.011758
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '222aeafa5dc3'
+revision = 'fe81cdfb33ee'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +31,8 @@ def upgrade():
     sa.Column('completion_costs', sa.Float(), nullable=True),
     sa.Column('pipeline_costs', sa.Float(), nullable=True),
     sa.Column('contingency_costs', sa.Float(), nullable=True),
+    sa.Column('prod_start_month', sa.String(), nullable=True),
+    sa.Column('prod_start_year', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('Gas_concentration_table',

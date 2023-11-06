@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy_financial as npf
 import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 
 
 from config import app
@@ -17,13 +20,35 @@ def get_type_well(id):
     type_curve_data = json.loads(type_curve_to_get)
     type_curve_df = pd.DataFrame(type_curve_data)
 
-    type_curve_df = type_curve_df.drop("Month", axis=1) 
+    # type_curve_df = type_curve_df.drop("Month", axis=1) 
 
-    type_curve_df.iloc[:,0] = type_curve_df.iloc[:,0].str.replace(',', '').astype(float)
-    type_curve_df.iloc[:,1] = type_curve_df.iloc[:,1].str.replace(',', '').astype(float)
+    # setting up the timeframe
+    prod_start_year = well_to_get["assumptions"]["prod_start_year"]
+    prod_start_month = well_to_get["assumptions"]["prod_start_month"]
 
+    month_number = datetime.strptime(prod_start_month, '%B').month
+    start_date = datetime(day=1, month=month_number, year=int(prod_start_year))
 
-    print(type_curve_df)
+    # Assuming type_curve_df is your DataFrame and has the same number of rows as the number of months you want to create
+    number_of_rows = len(type_curve_df)
+
+    # Create a list of dates incremented by one month for each entry
+    dates = [(start_date + relativedelta(months=+i)).strftime("%m/%d/%Y") for i in range(number_of_rows)]
+
+    # Insert the list of dates as the first column in your DataFrame
+    type_curve_df.insert(0, "Date", dates)
+
+    # number_of_rows = len(type_curve_df)
+    # month_number = datetime.strptime(prod_start_month, '%B').month
+    # date_object = datetime(day=1, month=month_number, year=int(prod_start_year))
+
+    # formatted_date = date_object.strftime("%m/%d/%Y")
+
+    # type_curve_df.insert(0, "Date", formatted_date)
+
+    type_curve_df.iloc[:,2] = type_curve_df.iloc[:,2].str.replace(',', '').astype(float)
+    type_curve_df.iloc[:,3] = type_curve_df.iloc[:,3].str.replace(',', '').astype(float)
+
     return type_curve_df
 
 def get_gas_concentration(id):
@@ -66,25 +91,27 @@ def process_curve(id):
     n_pentane_gpm = (n_pentane_factor)*n_pentane*(14.73/14.696)
     hexane_plus_gpm = (hexane_plus_factor)*hexane_plus*(14.73/14.696)
 
+    # Assigning timeframe
+
+
     # Assinging the oil
-    type_curve_df["oil_bbl"] = type_curve_df.iloc[:,0]
+    type_curve_df["oil_bbl"] = type_curve_df.iloc[:,2]
     
     # Calculating the residual gas and helium
-    type_curve_df["methane_mcf"] = type_curve_df.iloc[:,1]*methane
-    type_curve_df["helium_mcf"] = type_curve_df.iloc[:,1]*helium
+    type_curve_df["methane_mcf"] = type_curve_df.iloc[:,3]*methane
+    type_curve_df["helium_mcf"] = type_curve_df.iloc[:,3]*helium
 
     # Calculating the NGLs
-    type_curve_df["ethane_gal"] = type_curve_df.iloc[:,1]*ethane_gpm
-    type_curve_df["propane_gal"] = type_curve_df.iloc[:,1]*propane_gpm
-    type_curve_df["i_butane_gal"] = type_curve_df.iloc[:,1]*i_butane_gpm
-    type_curve_df["n_butane_gal"] = type_curve_df.iloc[:,1]*n_butane_gpm
-    type_curve_df["i_pentane_gal"] = type_curve_df.iloc[:,1]*i_pentane_gpm
-    type_curve_df["n_pentane_gal"] = type_curve_df.iloc[:,1]*n_pentane_gpm
-    type_curve_df["hexane_plus_gal"] = type_curve_df.iloc[:,1]*hexane_plus_gpm
+    type_curve_df["ethane_gal"] = type_curve_df.iloc[:,3]*ethane_gpm
+    type_curve_df["propane_gal"] = type_curve_df.iloc[:,3]*propane_gpm
+    type_curve_df["i_butane_gal"] = type_curve_df.iloc[:,3]*i_butane_gpm
+    type_curve_df["n_butane_gal"] = type_curve_df.iloc[:,3]*n_butane_gpm
+    type_curve_df["i_pentane_gal"] = type_curve_df.iloc[:,3]*i_pentane_gpm
+    type_curve_df["n_pentane_gal"] = type_curve_df.iloc[:,3]*n_pentane_gpm
+    type_curve_df["hexane_plus_gal"] = type_curve_df.iloc[:,3]*hexane_plus_gpm
 
-    processed_curve_df = type_curve_df[["oil_bbl", "methane_mcf", "helium_mcf", "ethane_gal", "propane_gal", "i_butane_gal", "n_butane_gal", "i_pentane_gal", "n_pentane_gal", "hexane_plus_gal"]]
+    processed_curve_df = type_curve_df[["Date", "Month", "oil_bbl", "methane_mcf", "helium_mcf", "ethane_gal", "propane_gal", "i_butane_gal", "n_butane_gal", "i_pentane_gal", "n_pentane_gal", "hexane_plus_gal"]]
 
-    print(processed_curve_df)
     return processed_curve_df
 
 
@@ -196,7 +223,7 @@ def calculate_cash_flows(id):
 
     irr = npf.irr(processed_curve_df["cash_flows"])
 
-    if not irr:
+    if irr == None:
         irr = 0
 
     
@@ -208,7 +235,7 @@ def calculate_cash_flows(id):
 
     # processed_curve_json = processed_curve_df.to_json(orient='records', date_format='iso')
 
-    send_package = {"model": processed_curve_df.to_dict(), "irr":irr, "npv":npv10}
+    send_package = { "model": processed_curve_df.to_dict(), "irr":irr, "npv":npv10 }
 
     # return send_package
     return send_package

@@ -5,7 +5,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
-from config import db
+from config import db, bcrypt
 
 
 # Models go here!
@@ -54,6 +54,9 @@ class Assumptions(db.Model, SerializerMixin):
     completion_costs = db.Column(db.Float)
     pipeline_costs = db.Column(db.Float)
     contingency_costs = db.Column(db.Float)
+    ## Added these 2
+    prod_start_month = db.Column(db.String)
+    prod_start_year = db.Column(db.String)
 
     #relationships
     well = db.relationship("Well", back_populates="assumptions")
@@ -120,29 +123,27 @@ class User(db.Model, SerializerMixin):
     # serialize_rules
     serialize_rules = ("-well",)
 
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        # utf-8 encoding and decoding is required in python3
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8')
+        )
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_has(
+            self._password_hash, password.encode('utf-8'))
+    
+
     #validations
     # need to add a validation to make sure that
     # one user can have many wells but
     # one well can only one user
-
-    #password stuff
-    # @hybrid_property
-    # def password_hash(self):
-    #     return self._password_hash
-    # @password_hash.setter
-    # def password_hash(self, password):
-    #     password_hash = bcrypt.generate_password_hash(
-    #         password.encode('utf-8')
-    #     )
-    #     self._password_hash = password_hash.decode('utf-8')
-
-    # def authenticate(self, password):
-    #     return bcrypt.check_password_hash(
-    #         self._password_hash,
-    #         password.encode('utf-8')
-    #     )
-
-    # #serializers
 
 
 class Project(db.Model, SerializerMixin):

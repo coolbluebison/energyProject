@@ -3,28 +3,35 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, jsonify
+from flask import request, jsonify, make_response, session
 from flask_restful import Resource
+from werkzeug.utils import secure_filename
+import json
+import os
+import pandas as pd
+
+
 
 # Local imports
 from config import app, db, api
 
 # Add your model imports
 from models import Well, Assumptions, GasConcentration, ProductionCurve, Project, User, Pricing
-
+# Import the Single Well Model
 import singlewellmodel
 
 
 class PackageSend(Resource):
-    def get(self):
+    
+    def get(self, id):
         try:
-            package = singlewellmodel.calculate_cash_flows(2)
+            package = singlewellmodel.calculate_cash_flows(id)
 
             return package, 200
         except Exception as e:
             return {"error": str(e)}, 500
 
-api.add_resource(PackageSend, '/Model_package')
+api.add_resource(PackageSend, '/Model_package/<int:id>')
 
 
 
@@ -46,7 +53,7 @@ class UserNorm(Resource):
         try: 
             new_user = User(
                 username = user_to_create["username"],
-                password = user_to_create["email"],
+                email = user_to_create["email"],
                 password_hash = user_to_create["password"]
             )
             
@@ -54,7 +61,8 @@ class UserNorm(Resource):
             db.session.commit()
             return new_user.to_dict(), 201
         
-        except:
+        except Exception as e:
+            print(e.__str__())
             raise Exception("There was an error while creating the user")
 
 api.add_resource(UserNorm, '/User_table')
@@ -149,6 +157,7 @@ class WellById(Resource):
         except Exception as e:
             print(e)
             return {'error':'the well does not exist'}, 404
+        
 
     def delete(self, id):
         well_to_choose = Well.query.filter_by(id=id).first()
@@ -527,6 +536,111 @@ class PricingById(Resource):
             return {'error':'the pricing does not exist'}, 404
 
 api.add_resource(PricingById, '/Pricing_table/<int:id>') 
+
+
+# make login
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
+        username = data['username']
+        password = data['password']
+        user = User.query.filter(User.username == username).first()
+        if user:
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+        return {'error': 'Unauthorized'}, 401
+    
+api.add_resource(Login, '/login')
+
+
+
+# Making upload file
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'csv'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+class UploadCurve(Resource):
+    
+    def post(self):
+        # Checking if the post request has the file
+        
+        if 'file_to_upload' not in request.files:
+            return {'error': 'There is no file part in the upload'}, 400
+        
+        file = request.files['file_to_upload']
+        well_name = request.form['well_name']
+
+        print('starting here !!!!')
+        print(request)
+        print(well_name)
+
+        if file.filename == '':
+            return {'error': 'No selected file'}, 400
+        
+        if file:
+            filename = secure_filename(file.filename)
+
+            filepath = os.path.join('upload_folder', filename)
+
+            file.save(filepath)
+
+            # read the csv file into a DataFrame
+            df = pd.read_csv(filepath)
+
+            # Process the DataFrame as needed, e.g., convert to JSON
+            json_data = df.to_json(orient='records')
+
+            new_gas_concentration = GasConcentration(methane=1.0,
+                                                        ethane=0.0,
+                                                        propane=0.0,
+                                                        i_butane=0.0,
+                                                        n_butane=0.0,
+                                                        i_pentane=0.0,
+                                                        n_pentane=0.0,
+                                                        hexane_plus=0.0,
+                                                        helium=0.0,
+                                                        other=0.0)
+            
+            db.session.add(new_gas_concentration)
+
+            new_ops_assumptions = Assumptions(
+                                                net_revenue_interest = 0.85,
+                                                working_interest = 1,
+                                                list_of_oil_deducts = json.dumps({"nymex_oil_pricing_deduct":0.0, "oil_transportation_cost":0.0, "oil_processing_cost":0.0}),
+                                                list_of_gas_deducts = json.dumps({"hhub_gas_pricing_deduct":0.0, "gas_transportation_cost":0.0, "gas_procesing_cost":0.0}),
+                                                severance_tax = 0.00,
+                                                ad_valorem_tax = 0.00,
+                                                total_monthly_opex = 0,
+                                                drilling_costs = 0,
+                                                completion_costs = 0,
+                                                pipeline_costs = 0,
+                                                contingency_costs = 0
+                                            )
+
+            db.session.add(new_ops_assumptions)
+
+            new_curve = ProductionCurve(type_curve=json_data)
+            db.session.add(new_curve)
+            db.session.flush()
+
+            new_well = Well(name=well_name, production_curve_id=new_curve.id, assumption_id=new_ops_assumptions.id, gas_concentration_id=new_gas_concentration.id)
+            
+            db.session.add(new_well)
+            db.session.commit()
+            
+            # Remove the file if not needed anymore
+            # os.remove(filepath)
+            
+            # Respond with the JSON data
+            return {'type_curve': json_data}, 200
+
+        return {'error': 'Invalid file type'}, 400
+
+api.add_resource(UploadCurve, '/Upload_curve')
+
 
 
 
