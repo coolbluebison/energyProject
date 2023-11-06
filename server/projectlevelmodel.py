@@ -51,6 +51,8 @@ def project_level_economics(project_id):
 
     combined_sum = combined_sum.reset_index()
 
+    combined_sum["disp_date"] =  (pd.to_datetime(combined_sum["Date"])).dt.strftime("%b-%y")
+
     combined_sum['Date'] = combined_sum['Date'].apply(lambda x: x.isoformat())
 
     print(combined_sum)

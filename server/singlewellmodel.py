@@ -221,6 +221,8 @@ def calculate_cash_flows(id):
 
     processed_curve_df["cash_flows"] = processed_curve_df["ebitda"] + processed_curve_df["capex"]
 
+    processed_curve_df["disp_date"] =  (pd.to_datetime(processed_curve_df["Date"])).dt.strftime("%b-%y")
+
     irr = npf.irr(processed_curve_df["cash_flows"])
 
     if irr == None:
