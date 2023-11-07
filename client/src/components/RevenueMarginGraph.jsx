@@ -15,7 +15,7 @@ import { Box, ThemeProvider } from '@mui/system';
 
 
 
-function RevenueMarginGraph({ param_data }) {
+function RevenueMarginGraph({ param_data, Item }) {
   let model = param_data["model"];
 
   // Extracting data for EBITDA
@@ -264,7 +264,7 @@ function RevenueMarginGraph({ param_data }) {
 
 
 
-    const Item = styled(Sheet)(({ theme }) => ({
+    const ItemSheet = styled(Sheet)(({ theme }) => ({
       backgroundColor:
         theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
       ...theme.typography['body-sm'],
@@ -280,53 +280,31 @@ function RevenueMarginGraph({ param_data }) {
       <h2>Revenue and EBITDA</h2>
       <div>
 
-        {/* <Grid container spacing={2} sx={{ flexGrow: 1 }}> */}
           <Grid xs container spacing={0.5}>
-          
-          <Box
-            sx={{
-              width: 1000,
-              // height: 1000,
-              display: "flex",
-              borderRadius: 1,
-              bgcolor: '#F8F8FF',
-              '&:hover': {
-                bgcolor: 'primary.dark',
-              },
-              borderBlockColor: '#000080'
 
-
-            }}>
-            <Bar data={data} options={options1} />
-          </Box>
+            <Item sx={{ flexGrow: 1 }} elevation={3}>              
+              <Bar data={data} options={options1} />
+            </Item>
             
           </Grid>
+
+          <br></br>
+
           <Grid xs container spacing={0.5}>
-            <Box
-              sx={{
-                width: 1000,
-                // height: 1000,
-                display: "flex",
-                borderRadius: 1,
-                bgcolor: '#F8F8FF',
-                '&:hover': {
-                  bgcolor: 'primary.dark',
-                },
-                borderBlockColor: '#000080'
-
-
-              }}>
+            <Item sx={{ flexGrow: 1 }} elevation={3}>              
               <Bar data={data2} options={options2} />
-            </Box>
-
+            </Item>
           </Grid>
-        {/* </Grid> */}
+        
+        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+
+        </Grid>
 
         
 
         {projectedTable}
         
-        
+{/*         
         <BarChart
           series={ [ { data:ebitdaList, label: "Ebitda($)", color:"#000080", stack: 'total' }, {data:capexList, label: "Capex($)", color:"#A9A9A9", stack:'total' } ] }
           yAxis={[{ labelStyle: {
@@ -367,7 +345,7 @@ function RevenueMarginGraph({ param_data }) {
         
             }
           }}
-        />
+        /> */}
       
       </div>
     </div>

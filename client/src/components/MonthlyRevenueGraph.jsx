@@ -7,10 +7,12 @@ import { styled } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Grid from '@mui/joy/Grid';
 import { Box, ThemeProvider } from '@mui/system';
+import Paper from '@mui/material/Paper';
 
 
 
-function DailyRevenueGraph({param_data}) {
+
+function DailyRevenueGraph({param_data, Item}) {
 
     let model = param_data["model"]
 
@@ -255,187 +257,82 @@ function DailyRevenueGraph({param_data}) {
     return (
 
         <>
-            <h2>Monthly Revenues</h2>
+            
+            <Paper background-color="black"  elevation={1} >              
+                <h2 align="center">Monthly Revenues by Products</h2>
+            </Paper>
 
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <br></br>
+
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={oil_revenue_data} options={revenue_options} />
-                </Box>    
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>              
+                        <Bar data={oil_revenue_data} options={revenue_options} />
+                    </Item>    
                 </Grid>
                 
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={methane_revenue_data} options={revenue_options} />
-                </Box>
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={methane_revenue_data} options={revenue_options} />
+                    </Item>
                 </Grid>
             </Grid>
 
 
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={helium_revenue_data} options={revenue_options} />
-                </Box>    
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={helium_revenue_data} options={revenue_options} />
+                    </Item>    
                 </Grid>
                 
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={ethane_revenue_data} options={revenue_options} />
-                </Box>
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>   
+                        <Bar data={ethane_revenue_data} options={revenue_options} />
+                    </Item>
                 </Grid>
             </Grid>
 
             
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={propane_revenue_data} options={revenue_options} />
-                </Box>    
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={propane_revenue_data} options={revenue_options} />
+                    </Item>    
                 </Grid>
                 
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={i_butane_revenue_data} options={revenue_options} />
-                </Box>
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={i_butane_revenue_data} options={revenue_options} />
+                    </Item>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                  <Bar data={n_butane_revenue_data} options={revenue_options} />
-                </Box>    
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={n_butane_revenue_data} options={revenue_options} />
+                    </Item>    
                 </Grid>
                 
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                   <Bar data={i_pentane_revenue_data} options={revenue_options} />
-                </Box>
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={i_pentane_revenue_data} options={revenue_options} />
+                    </Item>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={n_pentane_revenue_data} options={revenue_options} />
-                </Box>    
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={n_pentane_revenue_data} options={revenue_options} />
+                    </Item>    
                 </Grid>
                 
                 <Grid xs container spacing={0.5}>
-                <Box
-                    sx={{
-                    width: 1000,
-                    // height: 1000,
-                    display: "flex",
-                    borderRadius: 1,
-                    bgcolor: '#F8F8FF',
-                    '&:hover': {
-                        bgcolor: 'primary.dark',
-                    },
-                    borderBlockColor: '#000080'
-                    }}>
-                    <Bar data={hexane_plus_revenue_data} options={revenue_options} />
-                </Box>
+                    <Item sx={{ flexGrow: 1 }} elevation={3}>
+                        <Bar data={hexane_plus_revenue_data} options={revenue_options} />
+                    </Item>
                 </Grid>
             </Grid>
         </>

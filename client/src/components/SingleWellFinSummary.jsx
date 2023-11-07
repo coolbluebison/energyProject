@@ -3,6 +3,23 @@ import * as math from 'mathjs'
 
 
 
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+
+
+
+
 function SingleWellFinSummary( { param_data }) {
 
     let model = param_data["model"]    
@@ -27,47 +44,131 @@ function SingleWellFinSummary( { param_data }) {
     console.log(npv10)
     console.log('irr', irr)
 
+
+    // Styled Paper Here
+    const Item = styled(Paper)(({ theme }) => ({
+        ...theme.typography.body2,
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        display: "flex",
+        lineHeight: '60px',
+      }));
+      
+      const darkTheme = createTheme({ palette: { mode: 'dark' } });
+      const lightTheme = createTheme({ palette: { mode: 'light' } });
+
+
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+    }));
+
+    function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+    }
+
+
         
     return (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
 
         <br></br >
-        <h2>Single  Well Financial Summary</h2>
-        
-        <table style={{ margin: 'auto', borderCollapse: 'collapse', width: '60%', textAlign: 'left' }}>
-            <thead>
-            <tr style={{ borderBottom: '2px solid black' }}>
-                <th style={{ padding: '10px' }}>Metric</th>
-                <th style={{ padding: '10px' }}>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td style={{ padding: '10px' }}>Net Present Value - NPV10</td>
-                <td style={{ padding: '10px' }}>{`$ ${npv10} MM`}</td>
-            </tr>
-            <tr>
-                <td style={{ padding: '10px' }}>Internal Rate of Return - IRR</td>
-                <td style={{ padding: '10px' }}>{`${irr} %`}</td>
-            </tr>
-            <tr>
-                <td style={{ padding: '10px' }}>Return on Investment - ROI</td>
-                <td style={{ padding: '10px' }}>{`${roi} %`}</td>
-            </tr>
-            <tr>
-                <td style={{ padding: '10px' }}>Total Revenue</td>
-                <td style={{ padding: '10px' }}>{`$ ${total_net_revenues} MM`}</td>
-            </tr>
-            <tr>
-                <td style={{ padding: '10px' }}>Realized Oil Price ($/bbl)</td>
-                <td style={{ padding: '10px' }}>{`$ TBD ${0}`}</td>
-            </tr>
-            <tr>
-                <td style={{ padding: '10px' }}>Realized Gas Price ($/Mcf)</td>
-                <td style={{ padding: '10px' }}>{`$ TBD ${0}`}</td>
-            </tr>
-            </tbody>
-        </table>
+
+        <Paper borderColor='black' elevation={4} >              
+          <h2 align="center">Summary Financial Metrics</h2>
+        </Paper>
+
+        <br></br>
+
+        <Item elevation={3}>
+            <br></br>
+            <br></br>
+            <br></br>
+                <TableContainer>
+                <Table style={{ margin: 'auto', borderCollapse: 'collapse', width: '60%', textAlign: 'left' }}>
+                    <TableHead>
+                    <TableRow style={{ borderBottom: '2px solid black' }}>
+                        <TableCell align='left' style={{ padding: '10px' }}>Metric</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>Value</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Net Present Value - NPV10</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`$ ${npv10} MM`}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Internal Rate of Return - IRR</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`${irr} %`}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Return on Investment - ROI</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`${roi} %`}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Total Revenue</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`$ ${total_net_revenues} MM`}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Realized Oil Price ($/bbl)</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`$ TBD ${0}`}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell align='left' style={{ padding: '10px' }}>Realized Gas Price ($/Mcf)</TableCell>
+                        <TableCell align='center' style={{ padding: '10px' }}>{`$ TBD ${0}`}</TableCell>
+                    </TableRow>
+                    </TableBody>
+                </Table>
+                </TableContainer>
+            <br></br>
+        </Item>
+
+
+
+        {/* <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="AAA">
+                <TableHead>
+                <TableRow>
+                    <StyledTableCell>Dessert (100g serving)</StyledTableCell>
+                    <StyledTableCell align="right">Calories</StyledTableCell>
+                    <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                    <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+                    <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {rows.map((row) => (
+                    <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                        {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                    </StyledTableRow>
+                ))}
+                </TableBody>
+            </Table>
+        </TableContainer> */}
+
+
+
         </div>
     )
 }

@@ -9,8 +9,10 @@ import Sheet from '@mui/joy/Sheet';
 import Grid from '@mui/joy/Grid';
 import { Box, ThemeProvider } from '@mui/system';
 
+import Paper from '@mui/material/Paper';
 
-function DailyProductionGraph({param_data}) {
+
+function DailyProductionGraph({param_data, Item}) {
     
     let model =  param_data["model"]
     
@@ -281,191 +283,81 @@ function DailyProductionGraph({param_data}) {
  
     return (
       <div>
-        <h2>Daily Production Curves</h2>
+
+        <Paper borderColor='black' elevation={1} >              
+          <h2 align="center">Daily Production Curves</h2>
+        </Paper>
+
+        <br></br>
         <div>
           
-          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-            <Grid xs container spacing={0.5}>
-            
-            <Box
-              sx={{
-                width: 1000,
-                // height: 1000,
-                display: "flex",
-                borderRadius: 1,
-                bgcolor: '#F8F8FF',
-                '&:hover': {
-                  bgcolor: 'primary.dark',
-                },
-                borderBlockColor: '#000080'
-
-
-              }}>
-              <Line data={oil_data} options={oil_options} />
-            </Box>
-              
+          <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>            
+              <Item sx={{ flexGrow: 1 }} elevation={3}>              
+                <Line data={oil_data} options={oil_options} />
+              </Item>
             </Grid>
+          
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
-              <Line data={methane_data} options={methane_options} />
-              </Box>
+              <Item sx={{ flexGrow: 1 }} elevation={3}> 
+                <Line data={methane_data} options={methane_options} />
+              </Item>            
             </Grid>
           </Grid>
           
-          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          <Grid container spacing={3} sx={{ flexGrow: 1 }}>
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
-                <Line data={helium_data} options={helium_options} />
-              </Box>    
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
+                  <Line data={helium_data} options={helium_options} />
+              </Item>    
             </Grid>
 
-            <br></br>
-            
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
                 <Line data={ethane_data} options={ngl_options} />
-              </Box>
+              </Item>
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          <Grid container spacing={3} sx={{ flexGrow: 1 }}>
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
                 <Line data={propane_data} options={ngl_options} />
-              </Box>    
+              </Item>    
             </Grid>
             
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
                 <Line data={i_butane_data} options={ngl_options} />
-              </Box>
+              </Item>
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          <Grid container spacing={3} sx={{ flexGrow: 1 }}>
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
-               <Line data={n_butane_data} options={ngl_options} />
-              </Box>    
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
+                <Line data={n_butane_data} options={ngl_options} />
+              </Item>    
             </Grid>
             
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
-               <Line data={i_pentane_data} options={ngl_options} />
-              </Box>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
+                <Line data={i_pentane_data} options={ngl_options} />
+              </Item>
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          <Grid container spacing={3} sx={{ flexGrow: 1 }}>
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
                 <Line data={n_pentane_data} options={ngl_options} />
-              </Box>    
+              </Item>    
             </Grid>
             
             <Grid xs container spacing={0.5}>
-              <Box
-                sx={{
-                  width: 1000,
-                  // height: 1000,
-                  display: "flex",
-                  borderRadius: 1,
-                  bgcolor: '#F8F8FF',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  borderBlockColor: '#000080'
-                }}>
+              <Item sx={{ flexGrow: 1 }} elevation={3}>
                 <Line data={hexane_plus_data} options={ngl_options} />
-              </Box>
+              </Item>
             </Grid>
           </Grid>
 
