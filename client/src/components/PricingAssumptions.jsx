@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 
-function PricingAssumptions() {
+function PricingAssumptions({wellID}) {
 
     const [pricingAssumptions, setPricingAssumptions] = useState([]);
 
@@ -9,8 +9,6 @@ function PricingAssumptions() {
         .then((response) => (response.json()))
         .then((file) => { setPricingAssumptions(file) } )
     }, [])
-
-    console.log(pricingAssumptions)   
 
 
     function handleSubmit(e) {

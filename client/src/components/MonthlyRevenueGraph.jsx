@@ -3,6 +3,13 @@ import { Bar } from 'react-chartjs-2'
 import * as math from 'mathjs' 
 
 
+import { styled } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
+import Grid from '@mui/joy/Grid';
+import { Box, ThemeProvider } from '@mui/system';
+
+
+
 function DailyRevenueGraph({param_data}) {
 
     let model = param_data["model"]
@@ -87,11 +94,18 @@ function DailyRevenueGraph({param_data}) {
         net_hexane_plus_revenue_list.push(net_hexane_plus_revenue[element])
     }
 
+    let disp_dates = model["disp_date"]
+    let x_values = []
+  
+    for (let x in disp_dates){
+      x_values.push(disp_dates[x])
+    }
 
+    // Array.from({length : 60}, (_, i) => i + 1)
 
     // Setting the oil revenue data for charts
     const oil_revenue_data = {
-        labels: Array.from({length : 60}, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
             label: "Oil Revenues ($)",
             data:  net_oil_revenue_list,
@@ -104,7 +118,7 @@ function DailyRevenueGraph({param_data}) {
 
     // Setting the methane revenue data for charts
     const methane_revenue_data = {
-        labels: Array.from({length : 60}, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
             label: "Methane Revenues ($)",
             data:  net_gas_revenue_list,
@@ -117,7 +131,7 @@ function DailyRevenueGraph({param_data}) {
 
     // Setting the methane revenue data for charts
     const helium_revenue_data = {
-        labels: Array.from({length : 60}, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
             label: "Helium Revenues ($)",
             data:  net_helium_revenue_list,
@@ -130,7 +144,7 @@ function DailyRevenueGraph({param_data}) {
 
     // Setting the ethane revenue data for charts
     const ethane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "Ethane Revenues ($)",
         data: net_ethane_revenue_list,
@@ -143,7 +157,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the propane revenue data for charts
     const propane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "Propane Revenues ($)",
         data: net_propane_revenue_list,
@@ -156,7 +170,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the i-butane revenue data for charts
     const i_butane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "i-Butane Revenues ($)",
         data: net_i_butane_revenue_list,
@@ -169,7 +183,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the n-butane revenue data for charts
     const n_butane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "n-Butane Revenues ($)",
         data: net_n_butane_revenue_list,
@@ -182,7 +196,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the i-pentane revenue data for charts
     const i_pentane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "i-Pentane Revenues ($)",
         data: net_i_pentane_revenue_list,
@@ -195,7 +209,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the n-pentane revenue data for charts
     const n_pentane_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "n-Pentane Revenues ($)",
         data: net_n_pentane_revenue_list,
@@ -208,7 +222,7 @@ function DailyRevenueGraph({param_data}) {
     
     // Setting the hexane_plus revenue data for charts
     const hexane_plus_revenue_data = {
-        labels: Array.from({ length: 60 }, (_, i) => i + 1),
+        labels: x_values,
         datasets: [{
         label: "Hexane Plus Revenues ($)",
         data: net_hexane_plus_revenue_list,
@@ -242,27 +256,188 @@ function DailyRevenueGraph({param_data}) {
 
         <>
             <h2>Monthly Revenues</h2>
-            <Bar data={oil_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={methane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={helium_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={ethane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={propane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={i_butane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={n_butane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={i_pentane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={n_butane_revenue_data} options={revenue_options} />
-            <></>
-            <Bar data={hexane_plus_revenue_data} options={revenue_options} />
+
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={oil_revenue_data} options={revenue_options} />
+                </Box>    
+                </Grid>
+                
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={methane_revenue_data} options={revenue_options} />
+                </Box>
+                </Grid>
+            </Grid>
 
 
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={helium_revenue_data} options={revenue_options} />
+                </Box>    
+                </Grid>
+                
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={ethane_revenue_data} options={revenue_options} />
+                </Box>
+                </Grid>
+            </Grid>
+
+            
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={propane_revenue_data} options={revenue_options} />
+                </Box>    
+                </Grid>
+                
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={i_butane_revenue_data} options={revenue_options} />
+                </Box>
+                </Grid>
+            </Grid>
+
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                  <Bar data={n_butane_revenue_data} options={revenue_options} />
+                </Box>    
+                </Grid>
+                
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                   <Bar data={i_pentane_revenue_data} options={revenue_options} />
+                </Box>
+                </Grid>
+            </Grid>
+
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={n_pentane_revenue_data} options={revenue_options} />
+                </Box>    
+                </Grid>
+                
+                <Grid xs container spacing={0.5}>
+                <Box
+                    sx={{
+                    width: 1000,
+                    // height: 1000,
+                    display: "flex",
+                    borderRadius: 1,
+                    bgcolor: '#F8F8FF',
+                    '&:hover': {
+                        bgcolor: 'primary.dark',
+                    },
+                    borderBlockColor: '#000080'
+                    }}>
+                    <Bar data={hexane_plus_revenue_data} options={revenue_options} />
+                </Box>
+                </Grid>
+            </Grid>
         </>
     
     )

@@ -3,6 +3,18 @@ import { Bar, Line } from "react-chartjs-2";
 import * as math from 'mathjs' 
 
 
+// MUI X charts
+import {  BarChart } from '@mui/x-charts';
+
+import { styled } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
+import Grid from '@mui/joy/Grid';
+
+import { Box, ThemeProvider } from '@mui/system';
+
+
+
+
 function RevenueMarginGraph({ param_data }) {
   let model = param_data["model"];
 
@@ -19,12 +31,22 @@ function RevenueMarginGraph({ param_data }) {
     return (ebitda / totalNetRevenuesList[index]) * 100; // Calculate EBITDA margin as a percentage
   });
 
+  let disp_dates = model["disp_date"]
+  let x_values = []
+
+  for (let x in disp_dates){
+    x_values.push(disp_dates[x])
+  }
+
   // Extracting data for capex
   let capex = model["capex"]
   let capexList = Object.values(capex)
 
+
+  // Array.from({ length: 60 }, (_, i) => i + 1)
+
   const data = {
-    labels: Array.from({ length: 60 }, (_, i) => i + 1),
+    labels: x_values,
     datasets: [
         {
             label: "EBITDA Margin (%)",
@@ -59,7 +81,7 @@ function RevenueMarginGraph({ param_data }) {
     ],
   };
 
-  const options = {
+  const options1 = {
     scales: {
       revenue: {
         type: "linear",
@@ -67,6 +89,7 @@ function RevenueMarginGraph({ param_data }) {
         title: {
           display: true,
           text: "Income Figures ($)",
+          fontSize: 12,
         },
       },
       margin: {
@@ -95,9 +118,45 @@ function RevenueMarginGraph({ param_data }) {
     },
   };
 
+  const options2 = {
+    scales: {
+      revenue: {
+        type: "linear",
+        position: "left",
+        title: {
+          display: true,
+          text: "Income Figures ($)",
+        },
+      },
+      // margin: {
+      //   type: "linear",
+      //   position: "right",
+      //   min: 0,
+      //   max: 100, // EBITDA margin is expressed as a percentage (0-100)
+      //   title: {
+      //     display: false,
+      //     text: "EBITDA Margin (%)",
+      //   },
+      //   grid: {
+      //     drawOnChartArea: false,
+      //   },
+      // },
+      x: {
+        stacked: true,
+        title: {
+          display: true,
+          text: "Months",
+        },
+      },
+    //   y:{
+    //     stacked: true
+    //   }  
+    },
+  };
+
 
   const data2 = {
-    labels: Array.from({ length: 60 }, (_, i) => i + 1),
+    labels: x_values,
     datasets: [
         {
             label: "EBITDA ($)",
@@ -193,16 +252,123 @@ function RevenueMarginGraph({ param_data }) {
     </div>
     )
 
-  
+    const chartSetting = {
+      yAxis: [
+        {
+          label: "EBITDA ($)" 
+        }
+      ],
+      width: 500,
+      height: 400,
+    };
+
+
+
+    const Item = styled(Sheet)(({ theme }) => ({
+      backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
+      ...theme.typography['body-sm'],
+      padding: theme.spacing(1),
+      textAlign: 'center',
+      borderRadius: 4,
+      color: theme.vars.palette.text.secondary,
+    }));
 
 
   return (
     <div>
       <h2>Revenue and EBITDA</h2>
       <div>
-        <Bar data={data} options={options} />
-        <Bar data={data2} options={options} />
+
+        {/* <Grid container spacing={2} sx={{ flexGrow: 1 }}> */}
+          <Grid xs container spacing={0.5}>
+          
+          <Box
+            sx={{
+              width: 1000,
+              // height: 1000,
+              display: "flex",
+              borderRadius: 1,
+              bgcolor: '#F8F8FF',
+              '&:hover': {
+                bgcolor: 'primary.dark',
+              },
+              borderBlockColor: '#000080'
+
+
+            }}>
+            <Bar data={data} options={options1} />
+          </Box>
+            
+          </Grid>
+          <Grid xs container spacing={0.5}>
+            <Box
+              sx={{
+                width: 1000,
+                // height: 1000,
+                display: "flex",
+                borderRadius: 1,
+                bgcolor: '#F8F8FF',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                },
+                borderBlockColor: '#000080'
+
+
+              }}>
+              <Bar data={data2} options={options2} />
+            </Box>
+
+          </Grid>
+        {/* </Grid> */}
+
+        
+
         {projectedTable}
+        
+        
+        <BarChart
+          series={ [ { data:ebitdaList, label: "Ebitda($)", color:"#000080", stack: 'total' }, {data:capexList, label: "Capex($)", color:"#A9A9A9", stack:'total' } ] }
+          yAxis={[{ labelStyle: {
+            fontSize: 40,
+          }, }]}
+
+          xAxis= {[{data: x_values, scaleType:'band',
+            tickLabelStyle: {
+              angle: -45,
+              textAnchor: 'end',
+              fontSize: 14,
+            }
+          }]}
+          width={1600}
+          height={800}
+          margin={{
+            left: 80,
+            right: 80,
+            top: 80,
+            bottom: 80,
+          }}
+        
+          slotProps={{
+            legend: {
+              direction: 'row',
+              position: {
+                vertical: 'top',
+                horizontal: 'middle',
+              },
+              itemMarkWidth: 20,
+              itemMarkHeight: 20,
+              markGap: 10,
+              itemGap: 10,
+              labelStyle: {
+                fontSize: 15,
+                fill: 'black',
+              },
+        
+            }
+          }}
+        />
+      
       </div>
     </div>
   );

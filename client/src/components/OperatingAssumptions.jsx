@@ -1,23 +1,44 @@
 import React, { useState, useEffect } from "react";
 
 
+function OperatingAssumptions({wellID}) {
 
-function OperatingAssumptions() {
+    // Construct a selection wheel to select month of production and year.
+    // Two drop down selection menus 1) months [Jan, Feb, ] 2) year, 2024, 2025 ... 2040
+    // Then have a useState hook that tracks the selection.
+    // When submitted it posts it to the back-end.
+    // So the models.py file needs to have a start-date attribute for a well object.
+    // Singlewellmodel then will take the date attribute and convert it into a datetime object and will format it accordingly.
+    // Add one month to the initial date to keep constructing the timeline.
+    // Make it part of the dataframe. 
     
     // Getting the data associated with the well
     const [data, setData] = useState([]);
     const [assumptions, setAssumptions] = useState([]);
+    const [month, setMonth] = useState("")
+    const [year, setYear] = useState("")
+
+    const [projects, setProjects] = useState([])
+    const [projectId, setProjectId] = useState("")
     
-    const well_to_get_id = 2
+    const well_to_get_id = wellID
 
     useEffect(() => {
         fetch(`http://127.0.0.1:5555/Well_table/${well_to_get_id}`)
             .then((response) => response.json())
             .then((file) => {
-                setData(file)
+                setData(file),
+                setProjectId(file["project_id"])
                 fetch(`http://127.0.0.1:5555/Assumptions_table/${file.assumption_id}`)
                     .then((response) => response.json())
-                    .then(file => setAssumptions(file))
+                    .then((file) => {
+                        setAssumptions(file), 
+                        setMonth(file["prod_start_month"]), 
+                        setYear(file["prod_start_year"])},                        
+                        fetch(`http://127.0.0.1:5555/Project_table`)
+                        .then((response) => response.json())
+                        .then((file) => {
+                        setProjects(file)}))
             });
     }, []);
 
@@ -28,12 +49,14 @@ function OperatingAssumptions() {
     function handleSubmit(e) {
         e.preventDefault()
 
-        const { list_of_oil_deducts, list_of_gas_deducts, ...restOfAssumptions } = assumptions;
+        const { list_of_oil_deducts, list_of_gas_deducts, prod_start_month, prod_start_year, ...restOfAssumptions } = assumptions;
 
         const data_to_update = {
             ...restOfAssumptions,
             list_of_oil_deducts: JSON.stringify(oilDeducts),
-            list_of_gas_deducts: JSON.stringify(gasDeducts)
+            list_of_gas_deducts: JSON.stringify(gasDeducts),
+            prod_start_month: month,
+            prod_start_year: year
         };
 
         fetch(`http://127.0.0.1:5555/Assumptions_table/${assumptions.id}`, {
@@ -46,6 +69,15 @@ function OperatingAssumptions() {
         .then(response => response.json())
         .then(data => {
             console.log(data)
+            
+        //     fetch(`http://127.0.0.1:5555/Well_table/${well_to_get_id}`, {
+        //     method: 'PATCH',
+        //     headers: {
+        //     'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(projectId),
+        // })
+
         })
         .catch((error) => {
             console.error("There was an error updating the data", error);
@@ -80,6 +112,26 @@ function OperatingAssumptions() {
     }
 
 
+    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+    let years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034']
+
+    const handleMonthChange = (event) => {
+        const month_to_update = event.target.value;
+        setMonth(month_to_update);
+    };
+
+    const handleYearChange = (event) => {
+        const year_to_update = event.target.value;
+        setYear(year_to_update);
+    };
+
+    // function handleProjectIdChange(e) {
+    //     e.preventDefault()
+    //     const { id, value } = e.target
+    //     const updatedData = { ...data, [id]: parseFloat(value) }
+    //     setProjectId(updatedData)
+    // }
+
     return (
         
             <>
@@ -87,7 +139,45 @@ function OperatingAssumptions() {
 
 
                 <form onSubmit={(e) => handleSubmit(e)} >
+
+                    <h3>Select a Start Date</h3>
+      
+                    <select value={month} onChange={handleMonthChange}>
+                        <option value="">Prod start month</option>
+                        {months.map((month) => (
+                            <option value={month}>
+                                {`${month}`}
+                            </option>
+                        ))}
+                    </select>
+
+                    <br></br>
                     
+                    <select value={year} onChange={handleYearChange}>
+                        <option value="">Prod start year</option>
+                        {years.map((year) => (
+                            <option value={year}>
+                                {`${year}`}
+                            </option>
+                        ))}
+                    </select>
+
+                    <br></br>
+
+
+                    
+                    {/* <h3>Select a Project (Optional)</h3>
+                    
+                    <select value={projectId} onChange={handleProjectIdChange}>
+                        <option value="">Project</option>
+                        {projects.map((project) => (
+                            <option value={project}>
+                                {`${project.id} - ${project.name}`}
+                            </option>
+                        ))}
+                    </select> */}
+                    
+
                     <h4>Net Revenue Interest Assumptions</h4>
 
                     <div id="net_revenue_interest">

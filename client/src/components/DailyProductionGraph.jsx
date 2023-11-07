@@ -4,6 +4,12 @@ import { Line } from 'react-chartjs-2'
 import * as math from 'mathjs' 
 
 
+import { styled } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
+import Grid from '@mui/joy/Grid';
+import { Box, ThemeProvider } from '@mui/system';
+
+
 function DailyProductionGraph({param_data}) {
     
     let model =  param_data["model"]
@@ -21,11 +27,19 @@ function DailyProductionGraph({param_data}) {
 
     const dailyOil  = math.multiply(oil_prod_list, 1/30)
 
+    let disp_dates = model["disp_date"]
+    let x_values = []
+  
+    for (let x in disp_dates){
+      x_values.push(disp_dates[x])
+    }
+  
 
+    // Array.from({ length: 60}, (_, i) => i + 1)
 
     // Daily Oil Production Curve
     const oil_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Oil Production (Bopd)',
         data: dailyOil,
@@ -65,7 +79,7 @@ function DailyProductionGraph({param_data}) {
 
     // Daily Methane Production Curve
     const methane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Methane Production (Mcfpd)',
         data: dailyMethane,
@@ -103,7 +117,7 @@ function DailyProductionGraph({param_data}) {
     const dailyHelium  = math.multiply(helium_prod_list, 1/30)
 
     const helium_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Helium Production (Mcfpd)',
         data: dailyHelium,
@@ -178,7 +192,7 @@ function DailyProductionGraph({param_data}) {
     const dailyHexanePlus  = math.multiply(hexane_plus_prod_list, 1/30)
 
     const ethane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Ethane Production (gallons/day)',
         data: dailyEthane,
@@ -188,7 +202,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const propane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Propane Production (gallons/day)',
         data: dailyPropane,
@@ -198,7 +212,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const i_butane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'I-Butane Production (gallons/day)',
         data: dailyIButane,
@@ -208,7 +222,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const n_butane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'N-Butane Production (gallons/day)',
         data: dailyNButane,
@@ -218,7 +232,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const i_pentane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'I-Pentane Production (gallons/day)',
         data: dailyIPentane,
@@ -228,7 +242,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const n_pentane_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'N-Pentane Production (gallons/day)',
         data: dailyNPentane,
@@ -238,7 +252,7 @@ function DailyProductionGraph({param_data}) {
     };
 
     const hexane_plus_data = {
-      labels: Array.from({ length: 60}, (_, i) => i + 1), // For months
+      labels: x_values, // For months
       datasets:[{
         label: 'Hexane+ Production (gallons/day)',
         data: dailyHexanePlus,
@@ -269,25 +283,191 @@ function DailyProductionGraph({param_data}) {
       <div>
         <h2>Daily Production Curves</h2>
         <div>
-          <Line data={oil_data} options={oil_options} />
-          <br></br>
-          <Line data={methane_data} options={methane_options} />
-          <br></br>
-          <Line data={helium_data} options={helium_options} />
-          <br></br>
-          <Line data={ethane_data} options={ngl_options} />
-          <br></br>
-          <Line data={propane_data} options={ngl_options} />
-          <br></br>
-          <Line data={i_butane_data} options={ngl_options} />
-          <br></br>
-          <Line data={n_butane_data} options={ngl_options} />
-          <br></br>
-          <Line data={i_pentane_data} options={ngl_options} />
-          <br></br>
-          <Line data={n_pentane_data} options={ngl_options} />
-          <br></br>
-          <Line data={hexane_plus_data} options={ngl_options} />
+          
+          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>
+            
+            <Box
+              sx={{
+                width: 1000,
+                // height: 1000,
+                display: "flex",
+                borderRadius: 1,
+                bgcolor: '#F8F8FF',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                },
+                borderBlockColor: '#000080'
+
+
+              }}>
+              <Line data={oil_data} options={oil_options} />
+            </Box>
+              
+            </Grid>
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+              <Line data={methane_data} options={methane_options} />
+              </Box>
+            </Grid>
+          </Grid>
+          
+          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={helium_data} options={helium_options} />
+              </Box>    
+            </Grid>
+
+            <br></br>
+            
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={ethane_data} options={ngl_options} />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={propane_data} options={ngl_options} />
+              </Box>    
+            </Grid>
+            
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={i_butane_data} options={ngl_options} />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+               <Line data={n_butane_data} options={ngl_options} />
+              </Box>    
+            </Grid>
+            
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+               <Line data={i_pentane_data} options={ngl_options} />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={n_pentane_data} options={ngl_options} />
+              </Box>    
+            </Grid>
+            
+            <Grid xs container spacing={0.5}>
+              <Box
+                sx={{
+                  width: 1000,
+                  // height: 1000,
+                  display: "flex",
+                  borderRadius: 1,
+                  bgcolor: '#F8F8FF',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                  borderBlockColor: '#000080'
+                }}>
+                <Line data={hexane_plus_data} options={ngl_options} />
+              </Box>
+            </Grid>
+          </Grid>
 
         </div>
       </div>

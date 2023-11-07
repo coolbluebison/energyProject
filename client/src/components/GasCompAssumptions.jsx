@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 
 
-function GasCompAssumptions() {
+function GasCompAssumptions({wellID}) {
 
     const [data, setData] = useState([])
     const [gasCompAssumptions, setGasCompAssumptions] = useState([])
 
-    const well_to_get_id = 2
+    const well_to_get_id = wellID
 
     useEffect(()=>{
         fetch(`http://127.0.0.1:5555/Well_table/${well_to_get_id}`)

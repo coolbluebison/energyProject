@@ -8,11 +8,11 @@ import SingleWellFinSummary from './SingleWellFinSummary';
 
 
 
-function DashboardContainer() {
+function DashboardContainer({wellID}) {
 
     const [data, setData] = useState(undefined)
 
-    useEffect(() => {fetch("http://127.0.0.1:5555/Model_package")
+    useEffect(() => {fetch(`http://127.0.0.1:5555/Model_package/${wellID}`)
     .then((r)=>r.json())
     .then((file)=> setData(file))}, []
     )            
@@ -24,13 +24,13 @@ function DashboardContainer() {
     return (
 
         <>
+            {data?<SingleWellFinSummary param_data = {data} />:<></>}
+
+            {data?<RevenueMarginGraph param_data = {data} />:<></>}
+            
             {data?<DailyProductionGraph param_data = {data} />:<></>}
 
             {data?<MonthlyRevenueGraph param_data = {data} />:<></>}
-
-            {data?<RevenueMarginGraph param_data = {data} />:<></>}
-
-            {data?<SingleWellFinSummary param_data = {data} />:<></>}
 
 
         </>
