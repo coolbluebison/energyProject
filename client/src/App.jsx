@@ -20,12 +20,18 @@ import SelectWell from './components/SelectWell'
 import ProjectDashboard from './components/ProjectDashboard'
 
 
-import { Box, ThemeProvider } from '@mui/system';
-
-
-
-
 import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
+import Paper from '@mui/material/Paper';
+
+
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 // const userLoader = async () => {
@@ -38,23 +44,26 @@ function App() {
   const [count, setCount] = useState(0)
   const [wellID, setWellID] = useState("")
 
+    
+
 
 
   return (
     
     <BrowserRouter >
   
+      <Paper elevation={4} square={false}>
         <nav className='nav'>
 
-          <NavLink to="SelectWell" activeclassname="active" >Select Well</NavLink>
+          <NavLink to="SelectWell" activeclassname="active" >Select</NavLink>
           
-          <NavLink to="DashboardContainer" activeclassname="active">Dashboard-Single Well</NavLink>
+          <NavLink to="DashboardContainer" activeclassname="active">Dashboard-Well</NavLink>
           <NavLink to="ProjectDashboard" activeclassname="active">Dashboard-Project</NavLink>
 
 
-          <NavLink to="OperatingAssumptions" activeclassname="active">Operating Assumptions</NavLink>
-          <NavLink to="PricingAssumptions" activeclassname="active">Pricing Assumptions</NavLink>
-          <NavLink to="GasCompAssumptions" activeclassname="active">Gas Composition Assumptions</NavLink>
+          <NavLink to="OperatingAssumptions" activeclassname="active">Ops Assumptions</NavLink>
+          <NavLink to="PricingAssumptions" activeclassname="active">Price Assumptions</NavLink>
+          <NavLink to="GasCompAssumptions" activeclassname="active">Gas Assumptions</NavLink>
           <NavLink to="Signup" activeclassname="active">Signup</NavLink>
           <NavLink to="Login" activeclassname="active">Login</NavLink>
 
@@ -62,6 +71,40 @@ function App() {
 
 
         </nav>
+      </Paper>
+
+      {/* <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h8" component="div" sx={{ flexGrow: 1 }}>
+            <NavLink to="SelectWell" activeclassname="active" >Well</NavLink>
+            
+            <NavLink to="DashboardContainer" activeclassname="active">Dashboard-Well</NavLink>
+            <NavLink to="ProjectDashboard" activeclassname="active">Dashboard-Project</NavLink>
+
+
+            <NavLink to="OperatingAssumptions" activeclassname="active">Ops Assumptions</NavLink>
+            <NavLink to="PricingAssumptions" activeclassname="active">Price Assumptions</NavLink>
+            <NavLink to="GasCompAssumptions" activeclassname="active">Gas Assumptions</NavLink>
+            <NavLink to="Signup" activeclassname="active">Signup</NavLink>
+            <NavLink to="Login" activeclassname="active">Login</NavLink>
+
+            <NavLink to="CreateWell" activeclassname="active">New Well</NavLink>
+
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar> */}
+      <br></br>
+      <br></br>
 
 
         {/* <nav className="nav">

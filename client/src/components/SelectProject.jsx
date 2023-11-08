@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button'
 
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 
 
@@ -38,16 +40,15 @@ function SelectWell({ setProjectId }) {
   return (
     <div>
 
-      <h3>Select a Well</h3>
+      <h2>Select a Project</h2>
       
-      <select value={choice} onChange={handleProjectChange}>
-        <option value="">Select a well</option>
+      <Select size="small" variant="standard" value={choice} onChange={handleProjectChange}>
         {projects.map((project) => (
-          <option key={project.id} value={project.id}>
+          <MenuItem key={project.id} value={project.id}>
             {`${project.id} - ${project.name}`}
-          </option>
+          </MenuItem>
         ))}
-      </select>
+      </Select>
       <br></br>
       <br></br>
       <Button variant="outlined" onClick={handleSubmit}>Select</Button>

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Button from '@mui/material/Button'
 
+import TextField from '@mui/material/TextField';
 
+
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 function CreateWell() {
@@ -53,27 +57,52 @@ function CreateWell() {
         console.log(formData)
     }
 
+    const VisuallyHiddenInput = styled('input')({
+      clip: 'rect(0 0 0 0)',
+      clipPath: 'inset(50%)',
+      height: 1,
+      overflow: 'hidden',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      whiteSpace: 'nowrap',
+      width: 1,
+    });
+    
+
     return (
         <div>
           <h2>Create New Well</h2>
           <br></br>
           <br></br>
-          <h4>Upload Your Type Curve CSV File</h4>
+          <h4>Enter Well Name</h4>
           <form onSubmit={handleFormSubmit}>
             
-            <label htmlFor="well_name">New Well Name: </label>
-            <input id="well_name" onChange ={handleWellNameChange} type="text" placeholder='Enter Well Name Here' />
+            {/* <label htmlFor="well_name">New Well Name: </label> */}
+            <TextField  variant="standard" size="small" label="Well Name" id="well_name" onChange ={handleWellNameChange} type="text" placeholder='Enter Well Name Here' />
 
             <br></br>
             <br></br>
             <h4>Upload Your Type Curve CSV File</h4>
-            <input type="file" onChange={handleFileChange} accept=".csv" />
+            {/* <input type="file" onChange={handleFileChange} accept=".csv" />
+            <br></br> */}
+            {/* <br></br> */}
+
+
+            <Button size="small" component="label" variant="contained" startIcon={<CloudUploadIcon />} onChange={handleFileChange} accept=".csv">
+              Upload file
+              <VisuallyHiddenInput type="file" />
+            </Button>
+
+
             <br></br>
             <br></br>
             <br></br>
 
-            <></>
+            <h4>Submit to Create the Well</h4>
             <Button variant="outlined" type="submit">Create Well</Button>
+
+
           </form>
         </div>
     )

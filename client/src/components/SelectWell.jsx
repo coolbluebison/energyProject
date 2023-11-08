@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-
 import Button from '@mui/material/Button'
+
+
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+
 
 
 function SelectWell({ setWellID }) {
@@ -11,6 +17,7 @@ function SelectWell({ setWellID }) {
   // Hold the selected well   
   const [selectedWellId, setSelectedWellId] = useState('')
 
+
   useEffect(() => {
     // Fetch wells when the component is mounted
     fetch('http://127.0.0.1:5555/Well_table')
@@ -19,11 +26,14 @@ function SelectWell({ setWellID }) {
       .catch((error) => console.error('Error fetching wells:', error));
   }, []);
 
+  
   const handleWellChange = (event) => {
     const wellId = event.target.value;
+    console.log(wellId)
     setSelectedWellId(wellId);
   };
 
+  
   const handleSubmit = () => {
     if (selectedWellId) {
       setWellID(selectedWellId)
@@ -33,24 +43,41 @@ function SelectWell({ setWellID }) {
     }
   };
 
+
+
   return (
     <div>
 
-      <h3>Select a Well</h3>
+      <h2>Select a Well</h2>
       
-      <select value={selectedWellId} onChange={handleWellChange}>
-        <option value="">Select a well</option>
+      <Select 
+        size = 'small'
+        value={selectedWellId} 
+        placeHolder="Select a well" 
+        variant = "standard"
+        onChange={(event) => handleWellChange(event)}
+        
+        >
+
+        {/* <Option value="">Select a well</Option> */}
+
+
         {wells.map((well) => (
-          <option key={well.id} value={well.id}>
+          <MenuItem key={well.id} value={well.id}>
             {`${well.id} - ${well.name}`}
-          </option>
+          </MenuItem>
+        
         ))}
-      </select>
+      
+      </Select>
+      
       <br></br>
       <br></br>
-      <Button variant="outlined" color="primary" backgroundColor= '#0063cc' onClick={handleSubmit}>Confirm Selection</Button>
+      
+      <Button variant="outlined" color="primary" onClick={handleSubmit}>Confirm Selection</Button>
     </div>
   );
+
 }
 
 export default SelectWell;

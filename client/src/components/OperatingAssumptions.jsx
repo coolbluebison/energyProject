@@ -331,7 +331,7 @@ function OperatingAssumptions({wellID}) {
                     </div>
 
                     <br></br>
-                    < GreyButton variant="contained" type="submit" disableRipple> Submit </GreyButton >
+                    < Button variant="outlined" type="submit" disableRipple> Submit </Button >
                 </form>
             </>
         )
