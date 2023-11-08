@@ -158,6 +158,7 @@ class WellById(Resource):
             return {'error': 'the well does not exist'}, 404
 
     def patch(self, id):
+        
         data_to_patch_from = request.get_json()
 
         try: 

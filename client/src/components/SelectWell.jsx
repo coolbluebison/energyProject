@@ -48,7 +48,7 @@ function SelectWell({ setWellID }) {
       </select>
       <br></br>
       <br></br>
-      <Button variant="outlined" color="primary" onClick={handleSubmit}>Confirm Selection</Button>
+      <Button variant="outlined" color="primary" backgroundColor= '#0063cc' onClick={handleSubmit}>Confirm Selection</Button>
     </div>
   );
 }

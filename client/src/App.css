@@ -1,7 +1,7 @@
  #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: auto;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -43,22 +43,31 @@
 
 
 
-.nav {
+.nav { 
   display: flex;
+  height: 85px;
+  /* contain-intrinsic-height: flex; */
   background-color: #f3f4f6;
+  /* width: 100vw; */
   overflow: hidden;
+  top: 0;
+  /* position: fixed; */
   /* align-items: center; */
 }
 
 .nav a {
-  padding: 15px 15px;
+  padding: 10px 10px;
+  height:100px;
+  width:125px;
   display: block;
-  background-color: #08124A;
+  background-color: #02082b;
   color: rgb(0, 0, 0);
   text-align: center;
   color: #f3f4f6;
   text-decoration: none;
   transition: background-color 0.2s;
+  /* line-height: 15px; Sets line-height equal to the height */
+
 }
 
 /* background-color: #f3f4f6; */
@@ -72,6 +81,5 @@
   background-color: #4caf50;
   color: white;
 }
-
 
 

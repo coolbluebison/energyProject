@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Button from '@mui/material/Button'
+
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -52,7 +54,8 @@ function Login() {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <br></br>
+                <Button variant="outlined" type="submit">Login</Button>
             </form>
         </div>
     );

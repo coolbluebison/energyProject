@@ -41,8 +41,8 @@ function DashboardContainer({wellID}) {
         <>
 
             {data?              
-                <h2 align="center" color="black">Single Well Summary Dashboards</h2>
-            :0}
+                <h2 align="center" color="black"></h2>
+            :<h2>Please Select a Well First</h2>}
 
             {data?<SingleWellFinSummary param_data = {data} Item={Item} />:<></>}
 

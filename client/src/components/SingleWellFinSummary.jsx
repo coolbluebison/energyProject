@@ -78,9 +78,6 @@ function SingleWellFinSummary( { param_data }) {
     },
     }));
 
-    function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-    }
 
 
         
@@ -89,11 +86,11 @@ function SingleWellFinSummary( { param_data }) {
 
         <br></br >
 
-        <Paper borderColor='black' elevation={4} >              
+        <Paper borderColor='black' elevation={1} >              
           <h2 align="center">Summary Financial Metrics</h2>
         </Paper>
 
-        <br></br>
+        {/* <br></br> */}
 
         <Item elevation={3}>
             <br></br>

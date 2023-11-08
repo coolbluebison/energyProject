@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from '@mui/material/Button'
+
 
 
 
@@ -66,7 +68,12 @@ function CreateWell() {
             <br></br>
             <h4>Upload Your Type Curve CSV File</h4>
             <input type="file" onChange={handleFileChange} accept=".csv" />
-            <button type="submit">Create Well</button>
+            <br></br>
+            <br></br>
+            <br></br>
+
+            <></>
+            <Button variant="outlined" type="submit">Create Well</Button>
           </form>
         </div>
     )

@@ -20,6 +20,10 @@ import SelectWell from './components/SelectWell'
 import ProjectDashboard from './components/ProjectDashboard'
 
 
+import { Box, ThemeProvider } from '@mui/system';
+
+
+
 
 import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
 
@@ -34,11 +38,13 @@ function App() {
   const [count, setCount] = useState(0)
   const [wellID, setWellID] = useState("")
 
+
+
   return (
     
     <BrowserRouter >
   
-        <nav className="nav">
+        <nav className='nav'>
 
           <NavLink to="SelectWell" activeclassname="active" >Select Well</NavLink>
           
@@ -56,6 +62,27 @@ function App() {
 
 
         </nav>
+
+
+        {/* <nav className="nav">
+
+          <NavLink to="SelectWell" activeclassname="active" >Select Well</NavLink>
+          
+          <NavLink to="DashboardContainer" activeclassname="active">Dashboard-Single Well</NavLink>
+          <NavLink to="ProjectDashboard" activeclassname="active">Dashboard-Project</NavLink>
+
+
+          <NavLink to="OperatingAssumptions" activeclassname="active">Operating Assumptions</NavLink>
+          <NavLink to="PricingAssumptions" activeclassname="active">Pricing Assumptions</NavLink>
+          <NavLink to="GasCompAssumptions" activeclassname="active">Gas Composition Assumptions</NavLink>
+          <NavLink to="Signup" activeclassname="active">Signup</NavLink>
+          <NavLink to="Login" activeclassname="active">Login</NavLink>
+
+          <NavLink to="CreateWell" activeclassname="active">Create a New Well</NavLink>
+
+
+        </nav> */}
+
 
         <Routes>
 

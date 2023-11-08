@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Button from '@mui/material/Button'
 
 
 function GasCompAssumptions({wellID}) {
@@ -162,8 +163,8 @@ function GasCompAssumptions({wellID}) {
                 </div>
 
 
-
-                <button type="submit">Submit</button>
+                <br></br>
+                <Button variant="outlined" type="submit">Submit</Button>
             </form>
         </>
     )

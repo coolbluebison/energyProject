@@ -9,8 +9,18 @@ import {  BarChart } from '@mui/x-charts';
 import { styled } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Grid from '@mui/joy/Grid';
+import Paper from '@mui/material/Paper';
 
 import { Box, ThemeProvider } from '@mui/system';
+
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 
 
 
@@ -184,6 +194,39 @@ function RevenueMarginGraph({ param_data, Item }) {
 
   // Production Projections
 
+  // Styled Paper Here
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   ...theme.typography.body2,
+  //   textAlign: 'center',
+  //   color: theme.palette.text.primary,
+  //   display: "flex",
+  //   lineHeight: '60px',
+  // }));
+  
+  // const darkTheme = createTheme({ palette: { mode: 'dark' } });
+  // const lightTheme = createTheme({ palette: { mode: 'light' } });
+
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+      [`&.${tableCellClasses.head}`]: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+      },
+      [`&.${tableCellClasses.body}`]: {
+          fontSize: 14,
+      },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+      border: 0,
+  },
+  }));
+
   let total_oil_produced = math.round(math.sum(Object.values(model["oil_bbl"])));
   let total_methane_produced = math.round(math.sum(Object.values(model["methane_mcf"])));
   let total_helium_produced = math.round(math.sum(Object.values(model["helium_mcf"])));
@@ -197,88 +240,94 @@ function RevenueMarginGraph({ param_data, Item }) {
   
 
   const projectedTable = (
-    <div>
-      <h2>Projected Production Figures</h2>
-      <table className="financial-table">
-        <thead>
-          <tr>
-            <th>Production Component</th>
-            <th>Total Production</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Oil (bbl)</td>
-            <td>{total_oil_produced} bbl</td>
-          </tr>
-          <tr>
-            <td>Methane (mcf)</td>
-            <td>{total_methane_produced} mcf</td>
-          </tr>
-          <tr>
-            <td>Helium (mcf)</td>
-            <td>{total_helium_produced} mcf</td>
-          </tr>
-          <tr>
-            <td>Ethane (gal)</td>
-            <td>{total_ethane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>Propane (gal)</td>
-            <td>{total_propane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>I-Butane (gal)</td>
-            <td>{total_i_butane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>N-Butane (gal)</td>
-            <td>{total_n_butane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>I-Pentane (gal)</td>
-            <td>{total_i_pentane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>N-Pentane (gal)</td>
-            <td>{total_n_pentane_produced} gal</td>
-          </tr>
-          <tr>
-            <td>Hexane Plus (gal)</td>
-            <td>{total_hexane_plus_produced} gal</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    )
+    <>
+      <TableContainer>
+      <Table style={{ margin: 'auto', borderCollapse: 'collapse', width: '60%', textAlign: 'left' }} aria-label="a dense table">
+        <TableHead>
+          <TableRow style={{ borderBottom: '2px solid black' }}>
+            <TableCell align="center">Production Component</TableCell>
+            <TableCell align="center">Total Production</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell align="center">Oil (bbl)</TableCell>
+            <TableCell align="center">{total_oil_produced} bbl</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">Methane (mcf)</TableCell>
+            <TableCell align="center">{total_methane_produced} mcf</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">Helium (mcf)</TableCell>
+            <TableCell align="center">{total_helium_produced} mcf</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">Ethane (gal)</TableCell>
+            <TableCell align="center">{total_ethane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">Propane (gal)</TableCell>
+            <TableCell align="center">{total_propane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">I-Butane (gal)</TableCell>
+            <TableCell align="center">{total_i_butane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">N-Butane (gal)</TableCell>
+            <TableCell align="center">{total_n_butane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">I-Pentane (gal)</TableCell>
+            <TableCell align="center">{total_i_pentane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">N-Pentane (gal)</TableCell>
+            <TableCell align="center">{total_n_pentane_produced} gal</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">Hexane Plus (gal)</TableCell>
+            <TableCell align="center">{total_hexane_plus_produced} gal</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      </TableContainer>
+    </>
+  )
 
-    const chartSetting = {
-      yAxis: [
-        {
-          label: "EBITDA ($)" 
-        }
-      ],
-      width: 500,
-      height: 400,
-    };
+  const chartSetting = {
+    yAxis: [
+      {
+        label: "EBITDA ($)" 
+      }
+    ],
+    width: 500,
+    height: 400,
+  };
 
 
 
-    const ItemSheet = styled(Sheet)(({ theme }) => ({
-      backgroundColor:
-        theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
-      ...theme.typography['body-sm'],
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      borderRadius: 4,
-      color: theme.vars.palette.text.secondary,
-    }));
+  // const ItemSheet = styled(Sheet)(({ theme }) => ({
+  //   backgroundColor:
+  //     theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
+  //   ...theme.typography['body-sm'],
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   borderRadius: 4,
+  //   color: theme.vars.palette.text.secondary,
+  // }));
+
+
 
 
   return (
     <div>
-      <h2>Revenue and EBITDA</h2>
       <div>
+
+          <Paper borderColor='black' elevation={1} >              
+            <h2 align="center">Revenue/EBITDA</h2>
+          </Paper>
 
           <Grid xs container spacing={0.5}>
 
@@ -290,19 +339,30 @@ function RevenueMarginGraph({ param_data, Item }) {
 
           <br></br>
 
+          <Paper borderColor='black' elevation={1} >              
+            <h2 align="center">EBITDA/CAPEX</h2>
+          </Paper>
+
           <Grid xs container spacing={0.5}>
             <Item sx={{ flexGrow: 1 }} elevation={3}>              
               <Bar data={data2} options={options2} />
             </Item>
           </Grid>
+
+          <br></br>
+
+          <Paper borderColor='black' elevation={1} >              
+            <h2 align="center">Projected Production</h2>
+          </Paper>
+
+          <Item sx={{ flexGrow: 1 }} elevation={3}>              
+            {projectedTable}
+          </Item>
+
+
+       
+
         
-        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-
-        </Grid>
-
-        
-
-        {projectedTable}
         
 {/*         
         <BarChart

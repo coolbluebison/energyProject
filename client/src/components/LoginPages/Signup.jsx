@@ -1,5 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import Button from '@mui/material/Button'
+
 
 
 function Signup() {
@@ -107,7 +109,7 @@ function Signup() {
 
             <br></br>
 
-            <button type="submit">Signup</button>
+            <Button variant="outlined" type="submit">Signup</Button>
         </form>
 
         </>

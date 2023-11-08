@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Button from '@mui/material/Button'
+
 
 
 
@@ -48,7 +50,7 @@ function SelectWell({ setProjectId }) {
       </select>
       <br></br>
       <br></br>
-      <button onClick={handleSubmit}>Select</button>
+      <Button variant="outlined" onClick={handleSubmit}>Select</Button>
     </div>
   );
 }

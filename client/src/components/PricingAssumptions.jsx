@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react"
+import Button from '@mui/material/Button'
+
 
 function PricingAssumptions({wellID}) {
 
@@ -117,7 +119,7 @@ function PricingAssumptions({wellID}) {
 
                 <br></br>
 
-                <button type="submit">Submit</button>
+                <Button variant="outlined" type="submit">Submit</Button>
             </form>
         </>
     )

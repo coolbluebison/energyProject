@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
 
 
 function OperatingAssumptions({wellID}) {
+
+
+
+
+
 
     // Construct a selection wheel to select month of production and year.
     // Two drop down selection menus 1) months [Jan, Feb, ] 2) year, 2024, 2025 ... 2040
@@ -131,6 +139,43 @@ function OperatingAssumptions({wellID}) {
     //     const updatedData = { ...data, [id]: parseFloat(value) }
     //     setProjectId(updatedData)
     // }
+
+    const GreyButton = styled(Button) ( {
+        boxShadow: 'none',
+        textTransform: 'none',
+        fontSize: 14,
+        padding: '6px 12px',
+        border: '1px solid',
+        lineHeight: 1.5,
+        backgroundColor: '#666666',
+        borderColor: '##C0C0C0',
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+        '&:hover': {
+          backgroundColor: '#0069d9',
+          borderColor: '#0062cc',
+          boxShadow: 'none',
+        },
+        '&:active': {
+          boxShadow: 'none',
+          backgroundColor: '#0062cc',
+          borderColor: '#005cbf',
+        },
+        '&:focus': {
+          boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+        },
+    });
+
 
     return (
         
@@ -285,7 +330,8 @@ function OperatingAssumptions({wellID}) {
                         <input id="contingency_costs" onChange ={(e) => {handleInputChange(e)}} type="text" placeholder="e.g. $100,000" pattern="^\d+(\.\d+)?$"/>
                     </div>
 
-                    <button type="submit">Submit</button>
+                    <br></br>
+                    < GreyButton variant="contained" type="submit" disableRipple> Submit </GreyButton >
                 </form>
             </>
         )
