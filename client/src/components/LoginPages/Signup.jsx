@@ -3,6 +3,14 @@ import * as Yup from 'yup';
 import Button from '@mui/material/Button'
 
 
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+
+
 
 function Signup() {
 
@@ -61,14 +69,44 @@ function Signup() {
 
     return (
         <>
-        <br></br>
-        <br></br>
-        <br></br>
+
         <h2>Please Enter Your Signup Details</h2>
-        <br></br>
-        <br></br>
+
         <form onSubmit={formik.handleSubmit}>
-            <div className="input-group">
+
+            <Box >
+                <TextField 
+                    label="Email" 
+                    variant="standard"
+                    required
+                    type="text"
+                    {...formik.getFieldProps('email')}
+            />
+            </Box>
+
+            <Box >
+                <TextField 
+                    label="Username" 
+                    variant="standard"
+                    required
+                    type="text"
+                    {...formik.getFieldProps('username')}
+            />
+            </Box>
+
+            <Box >
+                <TextField 
+                    label="Password" 
+                    variant="standard"
+                    required
+                    type ="password"
+                    {...formik.getFieldProps('password')}
+                />
+            </Box>
+
+
+
+            {/* <div className="input-group">
                 <label>Email:    </label>
                 <input
                     type="email"
@@ -107,8 +145,10 @@ function Signup() {
                 ) : null}
             </div>
 
-            <br></br>
+            <br></br> */}
 
+            <br></br>
+            <br></br>
             <Button variant="outlined" type="submit">Signup</Button>
         </form>
 

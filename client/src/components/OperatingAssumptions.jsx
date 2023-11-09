@@ -140,41 +140,41 @@ function OperatingAssumptions({wellID}) {
     //     setProjectId(updatedData)
     // }
 
-    const GreyButton = styled(Button) ( {
-        boxShadow: 'none',
-        textTransform: 'none',
-        fontSize: 14,
-        padding: '6px 12px',
-        border: '1px solid',
-        lineHeight: 1.5,
-        backgroundColor: '#666666',
-        borderColor: '##C0C0C0',
-        fontFamily: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          '"Helvetica Neue"',
-          'Arial',
-          'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-        ].join(','),
-        '&:hover': {
-          backgroundColor: '#0069d9',
-          borderColor: '#0062cc',
-          boxShadow: 'none',
-        },
-        '&:active': {
-          boxShadow: 'none',
-          backgroundColor: '#0062cc',
-          borderColor: '#005cbf',
-        },
-        '&:focus': {
-          boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-        },
-    });
+    // const GreyButton = styled(Button) ( {
+    //     boxShadow: 'none',
+    //     textTransform: 'none',
+    //     fontSize: 14,
+    //     padding: '6px 12px',
+    //     border: '1px solid',
+    //     lineHeight: 1.5,
+    //     backgroundColor: '#666666',
+    //     borderColor: '##C0C0C0',
+    //     fontFamily: [
+    //       '-apple-system',
+    //       'BlinkMacSystemFont',
+    //       '"Segoe UI"',
+    //       'Roboto',
+    //       '"Helvetica Neue"',
+    //       'Arial',
+    //       'sans-serif',
+    //       '"Apple Color Emoji"',
+    //       '"Segoe UI Emoji"',
+    //       '"Segoe UI Symbol"',
+    //     ].join(','),
+    //     '&:hover': {
+    //       backgroundColor: '#0069d9',
+    //       borderColor: '#0062cc',
+    //       boxShadow: 'none',
+    //     },
+    //     '&:active': {
+    //       boxShadow: 'none',
+    //       backgroundColor: '#0062cc',
+    //       borderColor: '#005cbf',
+    //     },
+    //     '&:focus': {
+    //       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+    //     },
+    // });
 
 
     return (
@@ -185,7 +185,7 @@ function OperatingAssumptions({wellID}) {
 
                 <form onSubmit={(e) => handleSubmit(e)} >
 
-                    <h3>Select a Start Date</h3>
+                    <h4>Select a Start Date</h4>
       
                     <select value={month} onChange={handleMonthChange}>
                         <option value="">Prod start month</option>
@@ -208,6 +208,17 @@ function OperatingAssumptions({wellID}) {
                     </select>
 
                     <br></br>
+
+                    <h4>Add to a Project</h4>
+      
+                    <select value={month} onChange={handleMonthChange}>
+                        <option value="">Prod start month</option>
+                        {months.map((month) => (
+                            <option value={month}>
+                                {`${month}`}
+                            </option>
+                        ))}
+                    </select>
 
 
                     

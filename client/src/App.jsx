@@ -57,17 +57,17 @@ function App() {
 
           <NavLink to="SelectWell" activeclassname="active" >Select</NavLink>
           
-          <NavLink to="DashboardContainer" activeclassname="active">Dashboard-Well</NavLink>
-          <NavLink to="ProjectDashboard" activeclassname="active">Dashboard-Project</NavLink>
+          <NavLink to="DashboardContainer" activeclassname="active">Dashboard - Well</NavLink>
+          <NavLink to="ProjectDashboard" activeclassname="active">Dashboard - Project</NavLink>
 
 
           <NavLink to="OperatingAssumptions" activeclassname="active">Ops Assumptions</NavLink>
           <NavLink to="PricingAssumptions" activeclassname="active">Price Assumptions</NavLink>
           <NavLink to="GasCompAssumptions" activeclassname="active">Gas Assumptions</NavLink>
+          <NavLink to="CreateWell" activeclassname="active">Create a New Well</NavLink>
           <NavLink to="Signup" activeclassname="active">Signup</NavLink>
           <NavLink to="Login" activeclassname="active">Login</NavLink>
 
-          <NavLink to="CreateWell" activeclassname="active">Create a New Well</NavLink>
 
 
         </nav>
