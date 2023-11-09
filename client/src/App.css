@@ -61,18 +61,18 @@
 }
 
 .nav a {
-  padding: 10px 10px;
-  height:100px;
-  width:125px;
+  padding: 21px 10px;
+  height: 100%;
+  width: 125px;
   display: block;
   background-color: #02082b;
   color: rgb(0, 0, 0);
-  /* text-align: center; */
+  text-align: center;
   color: #f3f4f6;
   text-decoration: none;
   transition: background-color 0.2s;
   align-items: "center";
-  line-height: 200%; 
+  /* line-height: 200%;  */
 }
 
 /* background-color: #f3f4f6; */

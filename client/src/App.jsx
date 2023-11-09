@@ -18,6 +18,7 @@ import Login from './components/LoginPages/Login.jsx'
 import CreateWell from './components/Create/CreateWell.jsx'
 import SelectWell from './components/SelectWell'
 import ProjectDashboard from './components/ProjectDashboard'
+import Home from "./components/Home"
 
 
 import {BrowserRouter, Route, NavLink, Outlet, Routes} from 'react-router-dom'
@@ -34,18 +35,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 
-// const userLoader = async () => {
-//   const response = await fetch("http://127.0.0.1:5555/Model_package/1")
-//   return response.json()
-// }
-
 
 function App() {
   const [count, setCount] = useState(0)
   const [wellID, setWellID] = useState("")
-
-    
-
 
 
   return (
@@ -128,6 +121,8 @@ function App() {
 
 
         <Routes>
+
+          <Route path="" element={<Home /> }  />
 
           <Route path="SelectWell" element={<SelectWell setWellID={setWellID} /> }  />
                     
