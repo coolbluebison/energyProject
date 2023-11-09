@@ -25,9 +25,10 @@ function OperatingAssumptions({wellID}) {
     const [assumptions, setAssumptions] = useState([]);
     const [month, setMonth] = useState("")
     const [year, setYear] = useState("")
+    const [projectId, setProjectId] = useState("")
 
     const [projects, setProjects] = useState([])
-    const [projectId, setProjectId] = useState("")
+
     
     const well_to_get_id = wellID
 
@@ -45,10 +46,19 @@ function OperatingAssumptions({wellID}) {
                         setYear(file["prod_start_year"])},                        
                         fetch(`http://127.0.0.1:5555/Project_table`)
                         .then((response) => response.json())
-                        .then((file) => {
-                        setProjects(file)}))
+                        .then((file) => { setProjects(file) }
+                    ))
             });
     }, []);
+
+
+    console.log(projects)
+    // fetch('http://127.0.0.1:5555/Project_table')
+    // .then((response) => response.json())
+    // .then((data) => setProjects(data))
+    // .catch((error) => console.error('Error fetching wells:', error));
+    // }, []);
+
 
     const [oilDeducts, setOilDeducts] = useState(assumptions.list_of_oil_deducts);
     const [gasDeducts, setGasDeducts] = useState(assumptions.list_of_gas_deducts);
@@ -57,14 +67,15 @@ function OperatingAssumptions({wellID}) {
     function handleSubmit(e) {
         e.preventDefault()
 
-        const { list_of_oil_deducts, list_of_gas_deducts, prod_start_month, prod_start_year, ...restOfAssumptions } = assumptions;
+        const { list_of_oil_deducts, list_of_gas_deducts, prod_start_month, prod_start_year, project_id, ...restOfAssumptions } = assumptions;
 
         const data_to_update = {
             ...restOfAssumptions,
             list_of_oil_deducts: JSON.stringify(oilDeducts),
             list_of_gas_deducts: JSON.stringify(gasDeducts),
             prod_start_month: month,
-            prod_start_year: year
+            prod_start_year: year,
+            // project_id: projectId
         };
 
         fetch(`http://127.0.0.1:5555/Assumptions_table/${assumptions.id}`, {
@@ -76,15 +87,15 @@ function OperatingAssumptions({wellID}) {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log(data),
             
-        //     fetch(`http://127.0.0.1:5555/Well_table/${well_to_get_id}`, {
-        //     method: 'PATCH',
-        //     headers: {
-        //     'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(projectId),
-        // })
+            fetch(`http://127.0.0.1:5555/Well_table/${well_to_get_id}`, {
+            method: 'PATCH',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({project_id : projectId}),
+        })
 
         })
         .catch((error) => {
@@ -123,6 +134,7 @@ function OperatingAssumptions({wellID}) {
     let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
     let years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034']
 
+
     const handleMonthChange = (event) => {
         const month_to_update = event.target.value;
         setMonth(month_to_update);
@@ -133,48 +145,13 @@ function OperatingAssumptions({wellID}) {
         setYear(year_to_update);
     };
 
-    // function handleProjectIdChange(e) {
-    //     e.preventDefault()
-    //     const { id, value } = e.target
-    //     const updatedData = { ...data, [id]: parseFloat(value) }
-    //     setProjectId(updatedData)
-    // }
+    function handleProjectIdChange(e) {
+        e.preventDefault()
 
-    // const GreyButton = styled(Button) ( {
-    //     boxShadow: 'none',
-    //     textTransform: 'none',
-    //     fontSize: 14,
-    //     padding: '6px 12px',
-    //     border: '1px solid',
-    //     lineHeight: 1.5,
-    //     backgroundColor: '#666666',
-    //     borderColor: '##C0C0C0',
-    //     fontFamily: [
-    //       '-apple-system',
-    //       'BlinkMacSystemFont',
-    //       '"Segoe UI"',
-    //       'Roboto',
-    //       '"Helvetica Neue"',
-    //       'Arial',
-    //       'sans-serif',
-    //       '"Apple Color Emoji"',
-    //       '"Segoe UI Emoji"',
-    //       '"Segoe UI Symbol"',
-    //     ].join(','),
-    //     '&:hover': {
-    //       backgroundColor: '#0069d9',
-    //       borderColor: '#0062cc',
-    //       boxShadow: 'none',
-    //     },
-    //     '&:active': {
-    //       boxShadow: 'none',
-    //       backgroundColor: '#0062cc',
-    //       borderColor: '#005cbf',
-    //     },
-    //     '&:focus': {
-    //       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    //     },
-    // });
+        const id_to_update = (e.target.value)
+        console.log(id_to_update)
+        setProjectId(id_to_update)
+    }
 
 
     return (
@@ -211,17 +188,16 @@ function OperatingAssumptions({wellID}) {
 
                     <h4>Add to a Project</h4>
       
-                    <select value={month} onChange={handleMonthChange}>
-                        <option value="">Prod start month</option>
-                        {months.map((month) => (
-                            <option value={month}>
-                                {`${month}`}
+                    <select value={projectId} onChange={handleProjectIdChange}>
+                        <option value="">No Project</option>
+                        {projects.map((project) => (
+                            <option value={project.id}>
+                                {`${project.name}`}
                             </option>
                         ))}
                     </select>
-
-
                     
+
                     {/* <h3>Select a Project (Optional)</h3>
                     
                     <select value={projectId} onChange={handleProjectIdChange}>
@@ -352,3 +328,43 @@ function OperatingAssumptions({wellID}) {
 // pattern="^(100(\.0{1,2})?|[1-9]\d?(\.\d{1,2})?|\.\d{1,2})%?$
 
 export default OperatingAssumptions
+
+
+
+
+    // const GreyButton = styled(Button) ( {
+    //     boxShadow: 'none',
+    //     textTransform: 'none',
+    //     fontSize: 14,
+    //     padding: '6px 12px',
+    //     border: '1px solid',
+    //     lineHeight: 1.5,
+    //     backgroundColor: '#666666',
+    //     borderColor: '##C0C0C0',
+    //     fontFamily: [
+    //       '-apple-system',
+    //       'BlinkMacSystemFont',
+    //       '"Segoe UI"',
+    //       'Roboto',
+    //       '"Helvetica Neue"',
+    //       'Arial',
+    //       'sans-serif',
+    //       '"Apple Color Emoji"',
+    //       '"Segoe UI Emoji"',
+    //       '"Segoe UI Symbol"',
+    //     ].join(','),
+    //     '&:hover': {
+    //       backgroundColor: '#0069d9',
+    //       borderColor: '#0062cc',
+    //       boxShadow: 'none',
+    //     },
+    //     '&:active': {
+    //       boxShadow: 'none',
+    //       backgroundColor: '#0062cc',
+    //       borderColor: '#005cbf',
+    //     },
+    //     '&:focus': {
+    //       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+    //     },
+    // });
+
