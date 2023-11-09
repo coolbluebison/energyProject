@@ -431,11 +431,13 @@ class ProjectNorm(Resource):
 
     # Post a new project
     def post(self):
-        project_to_create = request.get_json()
+        
+        project_name = request.form["project_name"]
+        # project_to_create = request.get_json()
 
         try:
             new_project = Project(
-                name = project_to_create['name'],
+                name = project_name,
                 # Add other fields as necessary
             )
 
