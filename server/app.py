@@ -598,7 +598,7 @@ class UploadCurve(Resource):
         if file.filename == '':
             return {'error': 'No selected file'}, 400
         
-        if file:
+        if file: 
             filename = secure_filename(file.filename)
 
             filepath = os.path.join('upload_folder', filename)
